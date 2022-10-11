@@ -1,0 +1,29 @@
+.carousel-notes-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.carousel-container {
+    width: 45vw;
+    margin-right:10px ;
+}
+
+.notes-container {
+    height: 350px;
+    overflow: hidden;
+    overflow-y: scroll;
+    width: 45vw;
+    margin-left: 10px;
+}
+
+.ul-notes {
+    list-style: none;
+    padding: 0px;
+
+}
+
+.li-notes {
+    margin: 0px;
+    padding-bottom: 15px;
+}
