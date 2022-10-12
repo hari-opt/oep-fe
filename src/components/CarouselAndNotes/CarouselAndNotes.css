@@ -1,3 +1,35 @@
+#notice-container{
+
+}
+
+#scroll-container{
+    animation-name: scroll;
+    animation-duration: 4ms;
+    animation-iteration-count: infinite;
+    animation-direction: reverse;
+    animation-timing-function: linear;
+    -webkit-animation-name: scroll;
+    -webkit-animation-duration: 4ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: reverse;
+    -webkit-animation-timing-function: linear;
+}
+
+#scroll-container:hover{
+    animation-play-state:paused;
+    -webkit-animation-play-state: paused;
+}
+
+@-webkit-keyframes move {
+    0% {
+        margin-left: -400px;
+    }
+
+    100% {
+        margin-left: 800px;
+    }
+}
+
 .carousel-notes-container {
     display: flex;
     justify-content: space-between;
@@ -12,7 +44,6 @@
 .notes-container {
     height: 350px;
     overflow: hidden;
-    overflow-y: scroll;
     width: 45vw;
     margin-left: 10px;
 }

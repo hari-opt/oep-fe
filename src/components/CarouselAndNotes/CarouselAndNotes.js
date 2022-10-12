@@ -68,8 +68,8 @@ function CarouselAndNotes() {
           </Carousel.Item>
         </Carousel>
       </div>
-      <div className="notes-container">
-        <ul className="ul-notes">
+      <div className="notes-container" id="notice-container">
+        <ul className="ul-notes" id="scroll-container">
           {randomSentance.map((each, index) => (
             <li className="li-notes" key={index}>
               {each}
