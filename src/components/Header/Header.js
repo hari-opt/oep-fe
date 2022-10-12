@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./Header.css";
 
@@ -14,7 +14,7 @@ const Header = () => {
   const navigate = useNavigate();
   return (
     <Navbar className="nav-bar" expand="lg">
-      <Container className="header-container">
+      <Container className="header-container hearder-margin">
         <Navbar.Brand href="/">
           <img
             src="https://res.cloudinary.com/dbdv9w5si/image/upload/v1664366511/optimumsolutions_vsbhkt.svg"
@@ -43,7 +43,6 @@ const Header = () => {
                 type="button"
                 className="logout-button"
                 onClick={() => {
-                  console.log("sadf");
                   Cookies.remove("jwt_token");
                   navigate("/login");
                 }}
