@@ -176,19 +176,17 @@
     color: #475569;
 }
 
-.input-field {
-    height: 40px;
+.register-input-field {
     border-radius: 2px;
     border: none;
     background: #e2e8f0;
-    border-radius: 2px;
+    border-radius: 5px;
     outline: none;
     padding: 5px 10px 5px 15px;
     font-family: DM Sans;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
-    line-height: 24px;
     color: #171f46;
 }
 

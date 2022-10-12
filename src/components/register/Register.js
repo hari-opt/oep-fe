@@ -34,12 +34,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [showRegisterError, setShowRegisterError] = useState("");
   const [showRegisterSuccess, setShowRegisterSuccess] = useState("");
-  const [idErrorMessage, setIdErrorMessage] = useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState(false);
-  const [userNameErrorMessage, setUserNameErrorMessage] = useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = useState(false);
-  const [mobileErrorMessage, setMobileErrorMessage] = useState(false);
-  const [locationErrorMessage, setLocationErrorMessage] = useState(false);
+  const [inputValidationError, setInputValidationError] = useState("");
   const [showLoader, setShowLoader] = useState(false);
 
   const navigate = useNavigate();
@@ -98,23 +93,17 @@ function Register() {
     for (const prop in userDetails) {
       onBlur(prop, userDetails[prop].length);
     }
-    console.log(
-      idErrorMessage,
-      passwordErrorMessage,
-      userNameErrorMessage,
-      emailErrorMessage,
-      mobileErrorMessage,
-      locationErrorMessage
-    );
 
     if (
-      idErrorMessage ||
-      passwordErrorMessage ||
-      userNameErrorMessage ||
-      emailErrorMessage ||
-      mobileErrorMessage ||
-      locationErrorMessage
+      userId.length === 0 ||
+      userName.length === 0 ||
+      userEmail.length === 0 ||
+      userMobile.length === 0 ||
+      userLocation.length === 0 ||
+      userGender.length === 0 ||
+      password === 0
     ) {
+      setShowLoader(false);
       return;
     } else {
       setShowRegisterError("");
@@ -145,33 +134,33 @@ function Register() {
     switch (label) {
       case "userId":
         if (length === 0) {
-          setIdErrorMessage(true);
-        } else setIdErrorMessage(false);
+          setInputValidationError(true);
+        } else setInputValidationError(false);
         break;
       case "userName":
         if (length === 0) {
-          setUserNameErrorMessage(true);
-        } else setUserNameErrorMessage(false);
+          setInputValidationError(true);
+        } else setInputValidationError(false);
         break;
       case "userEmail":
         if (length === 0) {
-          setEmailErrorMessage(true);
-        } else setEmailErrorMessage(false);
+          setInputValidationError(true);
+        } else setInputValidationError(false);
         break;
       case "userMobile":
         if (length === 0) {
-          setMobileErrorMessage(true);
-        } else setMobileErrorMessage(false);
+          setInputValidationError(true);
+        } else setInputValidationError(false);
         break;
       case "userLocation":
         if (length === 0) {
-          setLocationErrorMessage(true);
-        } else setLocationErrorMessage(false);
+          setInputValidationError(true);
+        } else setInputValidationError(false);
         break;
       case "password":
         if (length === 0) {
-          setPasswordErrorMessage(true);
-        } else setPasswordErrorMessage(false);
+          setInputValidationError(true);
+        } else setInputValidationError(false);
         break;
 
       default:
@@ -211,16 +200,13 @@ function Register() {
                 placeholder="User Id"
                 type="text"
                 id="userId"
-                className="input-field"
+                className="register-input-field"
                 onChange={onChangeUserId}
                 value={userId}
                 onBlur={(userId) =>
                   onBlur(userId.target.id, userId.target.value.length)
                 }
               />
-              {idErrorMessage && (
-                <p className="register-error-message">* Required</p>
-              )}
             </div>
             <div className="register-user-field-container">
               <label htmlFor="userName" className="register-input-label">
@@ -230,16 +216,13 @@ function Register() {
                 placeholder="Full Name"
                 type="text"
                 id="userName"
-                className="input-field"
+                className="register-input-field"
                 onChange={onChangeUserName}
                 value={userName}
                 onBlur={(userName) =>
                   onBlur(userName.target.id, userName.target.value.length)
                 }
               />
-              {userNameErrorMessage && (
-                <p className="register-error-message">* Required</p>
-              )}
             </div>
             <div className="register-user-field-container">
               <label htmlFor="userEmail" className="register-input-label">
@@ -249,16 +232,13 @@ function Register() {
                 placeholder="Email"
                 type="email"
                 id="userEmail"
-                className="input-field"
+                className="register-input-field"
                 onChange={onChangeUserEmail}
                 value={userEmail}
                 onBlur={(userEmail) =>
                   onBlur(userEmail.target.id, userEmail.target.value.length)
                 }
               />
-              {emailErrorMessage && (
-                <p className="register-error-message">* Required</p>
-              )}
             </div>
             <div className="register-user-field-container">
               <label htmlFor="userMobile" className="register-input-label">
@@ -268,16 +248,13 @@ function Register() {
                 placeholder="Mobile"
                 type="text"
                 id="userMobile"
-                className="input-field"
+                className="register-input-field"
                 onChange={onChangeUserMobile}
                 value={userMobile}
                 onBlur={(userMobile) =>
                   onBlur(userMobile.target.id, userMobile.target.value.length)
                 }
               />
-              {mobileErrorMessage && (
-                <p className="register-error-message">* Required</p>
-              )}
             </div>
             <div className="register-user-field-container">
               <label htmlFor="userLocation" className="register-input-label">
@@ -287,7 +264,7 @@ function Register() {
                 placeholder="Location"
                 type="text"
                 id="userLocation"
-                className="input-field"
+                className="register-input-field"
                 onChange={onChangeUserLocation}
                 value={userLocation}
                 onBlur={(userLocation) =>
@@ -297,9 +274,6 @@ function Register() {
                   )
                 }
               />
-              {locationErrorMessage && (
-                <p className="register-error-message">* Required</p>
-              )}
             </div>
             <div className="register-user-field-container">
               <label htmlFor="userGender" className="register-input-label">
@@ -307,7 +281,7 @@ function Register() {
               </label>
               <select
                 id="userGender"
-                className="input-field"
+                className="register-input-field"
                 onChange={onChangeUserGender}
                 value={userGender}
               >
@@ -326,20 +300,26 @@ function Register() {
                 placeholder="Password"
                 type="password"
                 id="password"
-                className="input-field"
+                className="register-input-field"
                 onChange={onChangePassword}
                 value={password}
                 onBlur={(password) =>
                   onBlur(password.target.id, password.target.value.length)
                 }
               />
-              {passwordErrorMessage && (
-                <p className="register-error-message">* Required</p>
-              )}
             </div>
             <button type="submit" className="sign-up-button">
               Register
             </button>
+            {!showLoader && (
+              <button
+                type="button"
+                className="sign-up-button"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </button>
+            )}
             {showRegisterError && (
               <p className="register-error-message">{showRegisterError}</p>
             )}
@@ -356,6 +336,9 @@ function Register() {
                   Login Here
                 </button>
               </>
+            )}
+            {inputValidationError && (
+              <p className="register-error-message">* All fields required</p>
             )}
             {showLoader && (
               <TailSpin

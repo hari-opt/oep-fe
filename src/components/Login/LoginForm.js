@@ -51,11 +51,11 @@ const LoginForm = () => {
     setShowLoader(true);
     setShowLoginError("");
     const userDetails = { userId, password };
+
     validateInputDetails(userDetails);
 
     console.log(idErrorMessage, passwordErrorMessage);
-    if (idErrorMessage || passwordErrorMessage) {
-      console.log("error");
+    if (userId.length === 0 || password.length === 0) {
       setShowLoader(false);
       return;
     } else {
