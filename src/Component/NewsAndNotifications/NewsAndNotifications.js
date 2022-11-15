@@ -34,7 +34,7 @@ function NewsAndNotifications() {
           <ul className="news-ul">
             {newsAndNoti.map((each) => (
               <li key={each.id} className="news-li">
-                <a href={each.link} className="news-a">
+                <a href={each.link} className="news-a" target="_blank">
                   {each.news}
                 </a>
               </li>

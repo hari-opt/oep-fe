@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import "./RegisterPage.css";
 
 export const RegisterPage = () => {
-  const [openBackdrop, setopenBackdrop] = React.useState(false);
   const [userID, setuserID] = useState("");
   const [userIDErrMessage, setuserIDErrMessage] = useState("");
   const [userIDerr, setuserIDerr] = useState(false);
@@ -42,124 +42,87 @@ export const RegisterPage = () => {
     );
 
     e.preventDefault();
-
     let hasError = false;
-
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-
     if (!userID) {
       setuserIDErrMessage("UserId is required");
-
       hasError = true;
-
       setuserIDerr(true);
     } else {
       setuserIDErrMessage("");
-
       setuserIDerr(false);
-
       hasError = false;
     }
 
     if (!userName) {
       setuserNameErrMessage("UserName is required");
-
       hasError = true;
-
       setuserNameerr(true);
     } else {
       setuserNameErrMessage("");
-
       setuserNameerr(false);
-
       hasError = false;
     }
 
     if (!email) {
       setemailErrMessage("Email is required!");
-
       setemailerr(true);
-
       hasError = true;
     } else if (!regex.test(email)) {
       setemailErrMessage("This is not a valid email format!");
-
       setemailerr(true);
-
       hasError = true;
     } else {
       setemailErrMessage("");
-
       setemailerr(false);
-
       hasError = false;
     }
 
     if (!password) {
       setPasswordErrMessage("Password is required");
-
       hasError = true;
-
       setpassworderr(true);
     } else if (password.length < 4) {
       setPasswordErrMessage("Password must be more than 4 characters");
-
       hasError = true;
-
       setpassworderr(true);
     } else if (password.length > 10) {
       setPasswordErrMessage("Password cannot exceed more than 10 characters");
-
       hasError = true;
-
       setpassworderr(true);
     } else {
       setPasswordErrMessage("");
-
       setpassworderr(false);
-
       hasError = false;
     }
 
     if (!userMobile) {
       setuserMobileErrMessage("Mobile Number is required");
-
       hasError = true;
-
       setuserMobileerr(true);
     } else {
       setuserMobileErrMessage("");
-
       setuserMobileerr(false);
-
       hasError = false;
     }
 
     if (!userGender) {
       setuserGenderErrMessage("UserGender is required");
-
       hasError = true;
-
       setuserGendererr(true);
     } else {
       setuserGenderErrMessage("");
-
       setuserGendererr(false);
-
       hasError = false;
     }
 
     if (!userLocation) {
       setuserLocationErrMessage("UserLocation is required");
-
       hasError = true;
-
       setuserLocationerr(true);
     } else {
       setuserLocationErrMessage("");
-
       setuserLocationerr(false);
-
       hasError = false;
     }
 
@@ -193,6 +156,15 @@ export const RegisterPage = () => {
     }
   };
 
+  const handleMessageBox = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.setState({
+        messageBox: "",
+      });
+    }
+  };
+
   const renderForm = (
     <div className="form">
       <form onSubmit={validate}>
@@ -207,6 +179,7 @@ export const RegisterPage = () => {
             maxRows={2}
             label="UserId"
             helperText={userIDErrMessage}
+            onKeyPress={(e) => handleMessageBox(e)}
           />
         </div>
 
@@ -221,6 +194,7 @@ export const RegisterPage = () => {
             maxRows={2}
             label="User Name"
             helperText={userNameErrMessage}
+            onKeyPress={(e) => handleMessageBox(e)}
           />
         </div>
 
@@ -235,6 +209,7 @@ export const RegisterPage = () => {
             maxRows={2}
             label="Email"
             helperText={emailErrMessage}
+            onKeyPress={(e) => handleMessageBox(e)}
           />
         </div>
 
@@ -249,6 +224,7 @@ export const RegisterPage = () => {
             maxRows={2}
             label="Password"
             helperText={PasswordErrMessage}
+            onKeyPress={(e) => handleMessageBox(e)}
           />
         </div>
 
@@ -263,6 +239,7 @@ export const RegisterPage = () => {
             maxRows={2}
             label="Mobile Number"
             helperText={userMobileErrMessage}
+            onKeyPress={(e) => handleMessageBox(e)}
           />
         </div>
 
@@ -277,6 +254,7 @@ export const RegisterPage = () => {
             maxRows={2}
             label="Gender"
             helperText={userGenderErrMessage}
+            onKeyPress={(e) => handleMessageBox(e)}
           />
         </div>
 
@@ -291,6 +269,7 @@ export const RegisterPage = () => {
             maxRows={2}
             label="Location"
             helperText={userLocationErrMessage}
+            onKeyPress={(e) => handleMessageBox(e)}
           />
         </div>
 
@@ -304,17 +283,11 @@ export const RegisterPage = () => {
   );
 
   return (
-    <div className="appreg">
+    <div className="app-reg">
       <div className="login-form">
-        <div
-          style={{
-            flexDirection: "row",
-            display: "flex",
-            justifyContent: "space-around",
-          }}
-        >
+        <div className="sign-up-title">
           <div
-            className="title"
+            className="sign-up"
             onClick={() => {
               navigate("../components/Dashboard");
             }}

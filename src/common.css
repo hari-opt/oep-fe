@@ -314,7 +314,7 @@ FormControlLabel {
 #img3 {
   width: 42rem;
 }
-.imagecontent {
+/* .imagecontent {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -323,7 +323,7 @@ FormControlLabel {
   margin-top: 1rem;
   margin-left: 1.5rem;
   margin-right: 1rem;
-}
+} */
 figcaption {
   margin: 2rem;
 }
@@ -505,6 +505,15 @@ dt {
   flex-direction: row;
   justify-content: space-between;
 }
+.user-skills{
+  padding: 1rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin: 1rem;
+}
+.user-skills-savebutton{
+  display: flex;
+  justify-content: flex-end;
+}
 .childskills {
   padding: 2rem;
   width: 630px;
@@ -542,7 +551,7 @@ dt {
   background-size: cover;
 }
 
-.appreg {
+/* .appreg {
   font-family: sans-serif;
   display: flex;
   align-items: center;
@@ -553,7 +562,7 @@ dt {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   background-image: url("../src/Component/img/loginimg.jpg");
   background-size: cover;
-}
+} */
 
 input[type="text"],
 input[type="password"] {

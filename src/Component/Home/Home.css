@@ -1,0 +1,49 @@
+.container {
+  /* background-image: url(./Component/img/OEP9.jpg); */
+  background-size: cover;
+  height: 650px;
+  background-color: white;
+}
+.header2 {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  height: 3.8rem;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+.child2 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+.imagecontent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 0;
+  margin-top: 1rem;
+  margin-left: 1.5rem;
+  margin-right: 1rem;
+}
+.news-noti-header {
+  margin-top: 0px;
+}
+.links {
+  margin-top: 1rem;
+}
+.ul {
+  list-style-type: none;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  width: 95%;
+  margin-left: 0.9rem;
+}
+.li {
+  text-align: center;
+  height: 2.5rem;
+}
+.li:hover {
+  color: #ec4608;
+  font-size: 1.1rem;
+  font-weight: 500;
+}

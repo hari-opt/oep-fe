@@ -12,6 +12,7 @@ import { Header } from "../Header/Header";
 import Carousel from "../Carousel/Carousel";
 import NewsAndNotifications from "../NewsAndNotifications/NewsAndNotifications";
 import Footer from "../Footer/Footer";
+import "./Home.css";
 
 export const Home = ({ primarytdata, imgfile, secondarydata, cetificate }) => {
   const [value, setValue] = useState("one");
@@ -29,8 +30,8 @@ export const Home = ({ primarytdata, imgfile, secondarydata, cetificate }) => {
       navigate("../UpdateSkills");
     } else if (item === "Referrals") {
       navigate("../Referrals");
-    } else if (item === "My Refferals") {
-      navigate("../MyRefferalPage");
+    } else if (item === "Training") {
+      navigate("/Training");
     }
   };
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -73,8 +74,8 @@ export const Home = ({ primarytdata, imgfile, secondarydata, cetificate }) => {
 
   return (
     <div>
+      <Header />
       <div className="container">
-        <Header />
         <div className="header2">
           <h4 className="child2">All News</h4>
           <h4 className="child2">India</h4>
@@ -86,7 +87,7 @@ export const Home = ({ primarytdata, imgfile, secondarydata, cetificate }) => {
           <Carousel />
           <div>
             <h1 className="news-noti-header">News and Notifications</h1>
-            <NewsAndNotifications />
+            <NewsAndNotifications className="news-noti-container" />
           </div>
         </div>
         <div className="links">
@@ -104,4 +105,4 @@ export const Home = ({ primarytdata, imgfile, secondarydata, cetificate }) => {
   );
 };
 
-const links = ["HRMS", "ATS", "Update Profile", "Referrals", "My Refferals"];
+const links = ["HRMS", "Update Profile", "Referrals", "Training"];

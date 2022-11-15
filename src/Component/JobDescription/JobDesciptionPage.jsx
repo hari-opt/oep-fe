@@ -54,8 +54,8 @@ export const JobDescriptionPage = ({ props }) => {
     form.append("email", Email);
     form.append("phone", PhoneNumber);
     form.append("jobId", state.data.jobid);
-    // "https://oep-backend-node.herokuapp.com/job-referral/";
-    fetch("http://localhost:9010/job-referral/", {
+  
+    fetch("https://oep-backend-node.herokuapp.com/job-referral/", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${jwt}`,

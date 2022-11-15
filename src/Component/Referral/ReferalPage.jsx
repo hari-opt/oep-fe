@@ -18,6 +18,8 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { width } from "@mui/system";
 import { Header } from "../Header/Header";
+import "./ReferalPage.css";
+import { MyRefferal } from "../MyReferral/MyRefferal";
 
 export const ReferalPage = () => {
   const [jobdata, setJobdata] = useState([]);
@@ -152,17 +154,6 @@ export const ReferalPage = () => {
       .map((post, index) => console.log(post, index, "ddddddddddddddddddd"));
   };
 
-  //   useEffect(() => {
-  //     const data = jobdata1.filter((item) => item.position.includes(searchdata));
-  //     console.log("data===>", data);
-  //     setJobdata(data);
-  //   }, [searchdata]);
-
-  //   const setItem = (item) => {
-  //     setSearchdata(item);
-  //     jobdata1.filter((item) => item.position.includes(searchdata));
-  //   };
-
   const handleclick = (data) => {
     console.log(data);
     navigate("../JobGD", { state: { data } });
@@ -174,17 +165,27 @@ export const ReferalPage = () => {
 
   return (
     <div>
-      <Header />
-      <div className="referralheader2">
-        <h4>Please click on a job to apply or to refer a friend</h4>
-        <h4>How to track your referrals?</h4>
-        <p>
-          1. Select My account menu and click "view profile" <br />
-          2. From "Options" Dropdown mwnu select "Referral Tracking" <br />
-          3. View your referral tracker
-        </p>
+      <div className="header-backarrow">
+        <ArrowBackIcon
+          style={{ fontSize: "40" }}
+          className="back-arrow"
+          onClick={() => navigate(-1)}
+        />
+        <Header />
       </div>
-
+      <div className="referralheader2">
+        <div className="refferal-instructions">
+          <h4>Please click on a job to apply or to refer a friend</h4>
+          <h4>Click below button to track your referrals</h4>
+          <Button
+            variant="outlined"
+            style={{ backgroundColor: "white", marginBottom: "1rem" }}
+            onClick={() => navigate("/MyRefferalPage")}
+          >
+            My Refferals
+          </Button>
+        </div>
+      </div>
       <div className="jobfilterdiv">
         <Grid container spacing={2} className="">
           <Grid item xs={0.5}></Grid>
