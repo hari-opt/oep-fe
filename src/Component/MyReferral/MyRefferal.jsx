@@ -1,25 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { CardContent, Card, Link, Button } from "@mui/material";
+import { CardContent, Card, Link, Button, Grid, Avatar } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import PulseLoader from "react-spinners/PulseLoader";
 import { Header } from "../Header/Header";
+import PulseLoader from "react-spinners/PulseLoader";
+import "./MyRefferal.css";
 
 export const MyRefferal = () => {
   const [refferalData, setRefferalData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [userAvatar, setUserAvatar] = useState("");
   let navigate = useNavigate();
   const jwt = Cookies.get("jwt");
 
   useEffect(() => {
     getData();
+    getDatatwo();
   }, []);
 
   const getData = async () => {
     setLoading(true);
     console.log("running");
-    fetch("http://localhost:9010/job-referral/", {
+    fetch("https://oep-backend-node.herokuapp.com/job-referral/", {
       method: "GET",
       headers: { Authorization: `Bearer ${jwt}` },
     })
@@ -31,9 +34,31 @@ export const MyRefferal = () => {
       });
   };
 
+  const getDatatwo = () => {
+    fetch("https://oep-backend-node.herokuapp.com/user-details", {
+      method: "GET",
+      headers: { Authorization: `bearer ${jwt}` },
+    })
+      .then((response) => response.json())
+      .then((json) => setUserAvatar(json.userDetails.firstname));
+  };
+
+  const handlelogout = (e) => {
+    e.preventDefault();
+    navigate("/login");
+    Cookies.remove("jwt");
+  };
+
   return (
     <div>
-      <Header />
+      <div className="header-backarrow">
+        <ArrowBackIcon
+          style={{ fontSize: "40" }}
+          className="back-arrow"
+          onClick={() => navigate(-1)}
+        />
+        <Header />
+      </div>
       <div>
         {loading ? (
           <PulseLoader
@@ -92,24 +117,3 @@ export const MyRefferal = () => {
     </div>
   );
 };
-
-const mydata = [
-  {
-    sno: 1,
-    referredby: "Prajwal",
-    firstname: "Asif",
-    lastname: "T",
-    email: "asif@gmail.com",
-    phone: 90198765,
-    status: "Selected",
-  },
-  {
-    sno: 2,
-    referredby: "Shivu",
-    firstname: "Arbaz",
-    lastname: "T",
-    email: "arbaz@gmail.com",
-    phone: 1234,
-    status: "Rejected",
-  },
-];

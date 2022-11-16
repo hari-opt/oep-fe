@@ -6,11 +6,9 @@ import Backdrop from "@mui/material/Backdrop";
 import Link from "@mui/material/Link";
 import Cookies from "js-cookie";
 import ClipLoader from "react-spinners/ClipLoader";
+import "./Login.css";
 
 export const Login = () => {
-  const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
-  const [openBackdrop, setopenBackdrop] = React.useState(false);
   const [email, setemail] = useState("");
   const [emailErrMessage, setemailErrMessage] = useState("");
   const [emailerr, setemailerr] = useState(false);
@@ -22,7 +20,6 @@ export const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const validate = (e) => {
-    // setopenBackdrop(true)
     e.preventDefault();
     setLoading(true);
     const errors = {};
@@ -40,6 +37,7 @@ export const Login = () => {
       setPasswordErrMessage("Password is required");
       hasError = true;
       setpassworderr(true);
+      setLoading(false);
     } else if (password.length < 4) {
       setPasswordErrMessage("Password must be more than 4 characters");
       hasError = true;
@@ -81,6 +79,15 @@ export const Login = () => {
     }
   };
 
+  const handleMessageBox = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.setState({
+        messageBox: "",
+      });
+    }
+  };
+
   const renderForm = (
     <div className="form">
       <form onSubmit={validate}>
@@ -96,6 +103,7 @@ export const Login = () => {
             label="UserId"
             helperText={emailErrMessage}
             type="number"
+            onKeyPress={(e) => handleMessageBox(e)}
           />
         </div>
         <div className="input-container">
@@ -109,15 +117,10 @@ export const Login = () => {
             helperText={PasswordErrMessage}
             type="password"
             autoComplete="current-password"
+            onKeyPress={(e) => handleMessageBox(e)}
           />
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "flex-end",
-          }}
-        >
+        <div className="register-link">
           <p>New User ?&nbsp;</p>
 
           <Link
@@ -157,25 +160,11 @@ export const Login = () => {
 
   return (
     <div className="app">
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={openBackdrop}
-      >
-        {/* <CircularProgress color="inherit" /> */}
-      </Backdrop>
-
       <div className="login-form">
-        <div
-          style={{
-            flexDirection: "row",
-            display: "flex",
-            justifyContent: "space-around",
-          }}
-        >
-          <div className="title">Sign In</div>
-
+        <div className="signin-text">
           <img src={require("../img/OEP.png")} alt="logo" id="imgland" />
         </div>
+        <h1 className="sign-in-title">Sign In</h1>
         {renderForm}
       </div>
     </div>

@@ -6,10 +6,11 @@ import { Login } from "./Component/Login/Login";
 import { Home } from "./Component/Home/Home";
 import { UpdateSkills } from "./Component/UpdateSkills/UpdateSkills";
 import { ReferalPage } from "./Component/Referral/ReferalPage";
-import { JobDescriptionPage } from "./Component/JobDescription/JobDesciptionPage";
+import { JobDescriptionPage } from "./Component/JobDescription/JobDescriptionPage";
 import { RegisterPage } from "./Component/Register/RegisterPage";
 import { MyRefferal } from "./Component/MyReferral/MyRefferal";
 import { ProtectedRoutes } from "./Component/ProtectedRoutes";
+import {Training} from "./Component/Training/Training";
 
 function App() {
   return (
@@ -64,7 +65,19 @@ function App() {
             </ProtectedRoutes>
           }
         />
+
+        <Route
+          path="/Training"
+          element={
+            <ProtectedRoutes>
+              <Training />
+            </ProtectedRoutes>
+          }
+        />
+
       </Routes>
+
+      
     </div>
   );
 }

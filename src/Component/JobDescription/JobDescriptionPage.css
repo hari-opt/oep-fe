@@ -1,0 +1,68 @@
+.header-backarrow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.back-arrow {
+  color: #0070ad;
+  margin-left: 1.5rem;
+}
+.success-alert {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.job-discription {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-top: 20px;
+}
+.refferal-resume-upload {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 20px;
+  text-align: right;
+}
+.refferal-cancel-button {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+.job-discription-data {
+  padding: 10px;
+}
+.split {
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: "70px";
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+.left {
+  left: 10;
+  width: 70%;
+}
+.right {
+  width: 25%;
+  right: 0;
+  background-color: #d4d7d8;
+}
+.divDescription {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1.5rem;
+}
+.labelDescription {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.job-details {
+  margin-top: 30px;
+}
+.job-details-paragraph {
+  color: #0070ad;
+}
+

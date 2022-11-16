@@ -18,6 +18,8 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { width } from "@mui/system";
 import { Header } from "../Header/Header";
+import "./ReferalPage.css";
+import { MyRefferal } from "../MyReferral/MyRefferal";
 
 export const ReferalPage = () => {
   const [jobdata, setJobdata] = useState([]);
@@ -73,48 +75,12 @@ export const ReferalPage = () => {
     },
   }));
 
-  const BootstrapInputtwo = styled(InputBase)(({ theme }) => ({
-    "label + &": {
-      marginTop: theme.spacing(3),
-    },
-    "& .MuiInputBase-input": {
-      borderRadius: 4,
-      position: "relative",
-      backgroundColor: theme.palette.mode === "light" ? "#fcfcfb" : "#2b2b2b",
-      border: "1px solid #ced4da",
-      fontSize: 16,
-      width: "15rem",
-      height: "1rem",
-      padding: "10px 12px",
-      transition: theme.transitions.create([
-        "border-color",
-        "background-color",
-        "box-shadow",
-      ]),
-      // Use the system font instead of the default Roboto font.
-      fontFamily: [
-        "-apple-system",
-        "BlinkMacSystemFont",
-        '"Segoe UI"',
-        "Roboto",
-        '"Helvetica Neue"',
-        "Arial",
-        "sans-serif",
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(","),
-      "&:focus": {
-        boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-        borderColor: theme.palette.primary.main,
-      },
-    },
-  }));
 
   useEffect(() => {
     handleSubmit();
   }, []);
 
+  console.log(searchInput,"]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
   const handleSubmit = () => {
     console.log("in on submit");
     setLoading(true);
@@ -136,55 +102,34 @@ export const ReferalPage = () => {
     const response = getData();
   };
 
-  const handlechange = (e) => {
-    jobdata
-      .flat(2)
-      .filter((post) => {
-        console.log(post, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkk ksnn");
-        if (e.target.value === "") {
-          return post;
-        } else if (
-          post.position.toLowerCase().includes(e.target.value.toLowerCase())
-        ) {
-          return post;
-        }
-      })
-      .map((post, index) => console.log(post, index, "ddddddddddddddddddd"));
-  };
-
-  //   useEffect(() => {
-  //     const data = jobdata1.filter((item) => item.position.includes(searchdata));
-  //     console.log("data===>", data);
-  //     setJobdata(data);
-  //   }, [searchdata]);
-
-  //   const setItem = (item) => {
-  //     setSearchdata(item);
-  //     jobdata1.filter((item) => item.position.includes(searchdata));
-  //   };
-
   const handleclick = (data) => {
     console.log(data);
     navigate("../JobGD", { state: { data } });
   };
 
-  const handleReset = () => {
-    setResetField("");
-  };
-
   return (
     <div>
-      <Header />
-      <div className="referralheader2">
-        <h4>Please click on a job to apply or to refer a friend</h4>
-        <h4>How to track your referrals?</h4>
-        <p>
-          1. Select My account menu and click "view profile" <br />
-          2. From "Options" Dropdown mwnu select "Referral Tracking" <br />
-          3. View your referral tracker
-        </p>
+      <div className="header-backarrow">
+        <ArrowBackIcon
+          style={{ fontSize: "40" }}
+          className="back-arrow"
+          onClick={() => navigate(-1)}
+        />
+        <Header />
       </div>
-
+      <div className="referralheader2">
+        <div className="refferal-instructions">
+          <h4>Please click on a job to apply or to refer a friend</h4>
+          <h4>Click below button to track your referrals</h4>
+          <Button
+            variant="outlined"
+            style={{ backgroundColor: "white", marginBottom: "1rem" }}
+            onClick={() => navigate("/MyRefferalPage")}
+          >
+            My Refferals
+          </Button>
+        </div>
+      </div>
       <div className="jobfilterdiv">
         <Grid container spacing={2} className="">
           <Grid item xs={0.5}></Grid>
@@ -247,20 +192,11 @@ export const ReferalPage = () => {
                 border: "1px solid #0070ad",
                 color: "#0070ad",
               }}
-            >
-              Filter
-            </Button>
-          </Grid>
-          <Grid item xs={1} className="">
-            <Button
-              variant="outlined"
-              style={{
-                position: "relative",
-                borderRadius: "10rem",
-                border: "1px solid #0070ad",
-                color: "#0070ad",
-              }}
-              onClick={() => setReset(true) || handleReset()}
+              onClick={() =>setSearchInput({
+                byJobName: "",
+                byLocation: "",
+                byDate: "",
+              })}
             >
               Reset
             </Button>

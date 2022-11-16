@@ -314,7 +314,7 @@ FormControlLabel {
 #img3 {
   width: 42rem;
 }
-.imagecontent {
+/* .imagecontent {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -323,7 +323,7 @@ FormControlLabel {
   margin-top: 1rem;
   margin-left: 1.5rem;
   margin-right: 1rem;
-}
+} */
 figcaption {
   margin: 2rem;
 }
@@ -503,7 +503,22 @@ dt {
   /* padding: 3rem; */
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
+}
+
+@media screen and (max-width:768px) {
+  .containerskills {
+    flex-direction: column;
+  }
+}
+.user-skills{
+  padding: 1rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin: 1rem;
+}
+.user-skills-savebutton{
+  display: flex;
+  justify-content: flex-end;
 }
 .childskills {
   padding: 2rem;
@@ -542,7 +557,7 @@ dt {
   background-size: cover;
 }
 
-.appreg {
+/* .appreg {
   font-family: sans-serif;
   display: flex;
   align-items: center;
@@ -553,7 +568,7 @@ dt {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   background-image: url("../src/Component/img/loginimg.jpg");
   background-size: cover;
-}
+} */
 
 input[type="text"],
 input[type="password"] {
@@ -585,13 +600,13 @@ input[type="submit"]:hover {
   mix-blend-mode: multiply;
 }
 
-.login-form {
+/* .login-form {
   background-color: white;
   width: 30%;
   padding: 2rem;
   border-radius: 5%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+} */
 
 .list-container {
   display: flex;

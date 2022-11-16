@@ -1,0 +1,41 @@
+.app-reg {
+  font-family: sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  background-image: url("../img/loginimg.jpg");
+  background-size: cover;
+}
+/* .login-form {
+  background-color: white;
+  width: 30%;
+  padding: 2rem;
+  border-radius: 5%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+} */
+.sign-up-title {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-around;
+}
+.sign-up {
+  font-size: 25px;
+  margin-right: 2rem;
+}
+#imgland {
+  width: 15rem;
+  mix-blend-mode: multiply;
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px;
+}

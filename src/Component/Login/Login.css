@@ -1,0 +1,42 @@
+.register-link {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.signin-text {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-around;
+}
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px;
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+.login-form {
+  background-color: white;
+  width: 30%;
+  padding: 2rem;
+  border-radius: 5%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+@media screen and (max-width:768px){
+  .login-form{
+  width: 70%;
+    
+  }
+}
+#imgland {
+  width: 12rem;
+  mix-blend-mode: multiply;
+}
+.sign-in-title {
+  font-size: 25px;
+  margin-right: 2rem;
+}

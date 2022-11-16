@@ -1,0 +1,30 @@
+.header-component {
+  /* padding-top: 30px; */
+  padding: 0 20px;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  margin-bottom: 3px;
+  width: 100%;
+}
+
+.logo {
+  height: 60px;
+}
+
+.header-avatar {
+  background-color: #168aad;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+}
+
+.header-avatar-logout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
