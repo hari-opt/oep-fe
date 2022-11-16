@@ -26,6 +26,12 @@
   margin-left: 1.5rem;
   margin-right: 1rem;
 }
+@media screen and (max-width:768px) {
+  .imagecontent {
+  flex-direction: column;
+
+  }
+}
 .news-noti-header {
   margin-top: 0px;
 }

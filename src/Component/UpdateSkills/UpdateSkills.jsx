@@ -10,14 +10,14 @@ export const UpdateSkills = () => {
   let navigate = useNavigate();
   return (
     <div>
-      <div className="header-backarrow">
+      {/* <div className="header-backarrow">
         <ArrowBackIcon
           style={{ fontSize: "40" }}
           className="back-arrow"
           onClick={() => navigate(-1)}
         />
         <Header />
-      </div>
+      </div> */}
       <UserSkillsUpdate/>
       <UserResumeUpload/>
       <UserCertificateUpload/>

@@ -68,7 +68,6 @@ useEffect(() => {
     const res = await fetch(url, options);
     if(res.status == 200){
       const data = await res.json();
-      console.log(data,"check response");
       const updateData = data.userCertifications.map(each=>{
         setCertId(each.id)
         return {
@@ -94,20 +93,16 @@ useEffect(() => {
     const validFrom = document.getElementById("validFrom").value;
     const validTo = document.getElementById("validTo") === null ? "" :  document.getElementById("validTo").value
     const skills = document.getElementById("skills").value;
-    console.log(certification,certificationBy,validFrom,validTo,skills,certificatedata,"check data while posting");
     if (
       certification === "" ||
       certificationBy === "" ||
       validFrom === "" ||
       skills === ""
     ) {
-      console.log('if');
       setCertificateInputError(true);
     } else {
-      console.log('else');
       setCertificateInputError(false);
       const url ="https://oep-backend-node.herokuapp.com/user-certifications/update/certificates";
-    //   const url ="http://192.168.2.130:9010/user-certifications/update/certificates";
       const options = {
         method: "POST",
         headers: {
@@ -120,7 +115,6 @@ useEffect(() => {
         }),
       };
       const resp = await fetch(url, options);
-      console.log(resp.status, "certificateconsole");
       if(resp.status == 200){
         getCertificate();
         setCertValidTo('')
@@ -130,13 +124,11 @@ useEffect(() => {
         document.getElementById("validTo").value=''
         document.getElementById("skills").value=''
       }
-   
     }
 
   };
 
   const handleDelete = async () => {
-     console.log(certId,"certIdcertId");
     const url = `https://oep-backend-node.herokuapp.com/user-certifications/delete/certificate/ ${certId}`
     const options = {
       method: "DELETE",
@@ -147,7 +139,6 @@ useEffect(() => {
     const res = await fetch(url, options);
     if (res.status === 200) {
       const data = await res.json();
-      console.log(data, "deleteresponse");
       getCertificate();
       setopenModal(false)
     }
@@ -286,7 +277,7 @@ return(
     <Button
       type="submit"
       variant="contained"
-      style={{ marginBottom: "0.5rem" }}
+      style={{ marginTop: "1rem" }}
      
     >
       Add

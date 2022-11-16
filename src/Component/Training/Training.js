@@ -24,6 +24,8 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PulseLoader from "react-spinners/PulseLoader";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from "react-router-dom";
 import "./Training.css"
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -42,7 +44,7 @@ export const Training = () => {
   const[alertValue,setAlertValue]=useState('')
   const [loading, setLoading] = useState(false);
   const openFilter = Boolean(anchorEl);
-
+  let navigate = useNavigate();
   const jwt = Cookies.get("jwt")
   const [open, setOpen] = React.useState(false);
 
@@ -62,6 +64,7 @@ const getData = () => {
       Authorization: `Bearer ${jwt}`
     }
   }).then((response)=>response.json()).then((json)=>
+
 { 
   setCourseData(json.courses);
   setLoading(false)
@@ -189,7 +192,14 @@ const handleClickFilter = (event) => {
 
 return (
     <>
-  <Header />
+    <div className="header-backarrow">
+      <ArrowBackIcon
+        style={{ fontSize: "40" }}
+        className="back-arrow"
+        onClick={() => navigate(-1)}
+      />
+      <Header />
+    </div>
  <div>
       <div className="filtericon-style">
         <label>Filter By:</label>

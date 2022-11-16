@@ -75,48 +75,12 @@ export const ReferalPage = () => {
     },
   }));
 
-  const BootstrapInputtwo = styled(InputBase)(({ theme }) => ({
-    "label + &": {
-      marginTop: theme.spacing(3),
-    },
-    "& .MuiInputBase-input": {
-      borderRadius: 4,
-      position: "relative",
-      backgroundColor: theme.palette.mode === "light" ? "#fcfcfb" : "#2b2b2b",
-      border: "1px solid #ced4da",
-      fontSize: 16,
-      width: "15rem",
-      height: "1rem",
-      padding: "10px 12px",
-      transition: theme.transitions.create([
-        "border-color",
-        "background-color",
-        "box-shadow",
-      ]),
-      // Use the system font instead of the default Roboto font.
-      fontFamily: [
-        "-apple-system",
-        "BlinkMacSystemFont",
-        '"Segoe UI"',
-        "Roboto",
-        '"Helvetica Neue"',
-        "Arial",
-        "sans-serif",
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(","),
-      "&:focus": {
-        boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-        borderColor: theme.palette.primary.main,
-      },
-    },
-  }));
 
   useEffect(() => {
     handleSubmit();
   }, []);
 
+  console.log(searchInput,"]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
   const handleSubmit = () => {
     console.log("in on submit");
     setLoading(true);
@@ -138,29 +102,9 @@ export const ReferalPage = () => {
     const response = getData();
   };
 
-  const handlechange = (e) => {
-    jobdata
-      .flat(2)
-      .filter((post) => {
-        console.log(post, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkk ksnn");
-        if (e.target.value === "") {
-          return post;
-        } else if (
-          post.position.toLowerCase().includes(e.target.value.toLowerCase())
-        ) {
-          return post;
-        }
-      })
-      .map((post, index) => console.log(post, index, "ddddddddddddddddddd"));
-  };
-
   const handleclick = (data) => {
     console.log(data);
     navigate("../JobGD", { state: { data } });
-  };
-
-  const handleReset = () => {
-    setResetField("");
   };
 
   return (
@@ -248,20 +192,11 @@ export const ReferalPage = () => {
                 border: "1px solid #0070ad",
                 color: "#0070ad",
               }}
-            >
-              Filter
-            </Button>
-          </Grid>
-          <Grid item xs={1} className="">
-            <Button
-              variant="outlined"
-              style={{
-                position: "relative",
-                borderRadius: "10rem",
-                border: "1px solid #0070ad",
-                color: "#0070ad",
-              }}
-              onClick={() => setReset(true) || handleReset()}
+              onClick={() =>setSearchInput({
+                byJobName: "",
+                byLocation: "",
+                byDate: "",
+              })}
             >
               Reset
             </Button>

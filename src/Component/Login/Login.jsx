@@ -162,9 +162,9 @@ export const Login = () => {
     <div className="app">
       <div className="login-form">
         <div className="signin-text">
-          <div className="sign-in-title">Sign In</div>
           <img src={require("../img/OEP.png")} alt="logo" id="imgland" />
         </div>
+        <h1 className="sign-in-title">Sign In</h1>
         {renderForm}
       </div>
     </div>

@@ -99,7 +99,7 @@ export const Home = ({ primarytdata, imgfile, secondarydata, cetificate }) => {
             ))}
           </ul>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
   );

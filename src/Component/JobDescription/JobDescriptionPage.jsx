@@ -96,7 +96,7 @@ export const JobDescriptionPage = ({ props }) => {
         <ArrowBackIcon
           style={{ fontSize: "40" }}
           className="back-arrow"
-          onClick={() => navigate("/")}
+          onClick={() => navigate(-1)}
         />
         <Header />
       </div>

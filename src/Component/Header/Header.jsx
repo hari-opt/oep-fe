@@ -44,7 +44,7 @@ export const Header = () => {
           className="header-avatar"
           style={{ backgroundColor: "#168aad" }}
         >
-          {userAvatar.charAt(0)}
+          {userAvatar.charAt(0).toUpperCase()}
         </Avatar>
         <Button
           onClick={handlelogout}

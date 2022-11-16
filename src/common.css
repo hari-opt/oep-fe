@@ -503,7 +503,13 @@ dt {
   /* padding: 3rem; */
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
+}
+
+@media screen and (max-width:768px) {
+  .containerskills {
+    flex-direction: column;
+  }
 }
 .user-skills{
   padding: 1rem;
@@ -594,13 +600,13 @@ input[type="submit"]:hover {
   mix-blend-mode: multiply;
 }
 
-.login-form {
+/* .login-form {
   background-color: white;
   width: 30%;
   padding: 2rem;
   border-radius: 5%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+} */
 
 .list-container {
   display: flex;

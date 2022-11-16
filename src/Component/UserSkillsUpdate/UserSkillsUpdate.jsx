@@ -35,24 +35,7 @@ export const UserSkillsUpdate = () => {
 
     if (res.ok === true) {
       const data = await res.json();
-      console.log(data, "data in get details");
       const { userCertifications } = data;
-      // const updatedCertifications = userCertifications.map((ele) => {
-      //   return {
-      //     validFrom: ele.validfrom,
-      //     validTo: ele.validto,
-      //     certification: ele.certification,
-      //     certificationBy: ele.certificationby,
-      //     skills: ele.skills,
-      //   };
-      // });
-
-      // const filteredData = updatedCertifications.filter((each) => {
-      //   return !Object.values(each).includes(null);
-      // });
-
-      // setCertificatedata(filteredData);
-
       setPrimarySkills(
         data.userSkills.primaryskills == null
           ? []
@@ -92,7 +75,6 @@ export const UserSkillsUpdate = () => {
       body: obj,
     };
     const response = await fetch(url, options);
-    console.log(response, "check post response");
     if (response.status == 200) {
       getDetails();
       setAlertOpen(true);
@@ -118,7 +100,6 @@ export const UserSkillsUpdate = () => {
       case "secondarySkills":
         const secondaryskill = document.getElementById("secondarySkills").value;
         if (secondaryskill === "") {
-          console.log({ secondaryskill });
           setSkillInputError({ ...skillInputError, secondarySkill: true });
         } else {
           setSkillInputError({ ...skillInputError, secondarySkill: false });
@@ -171,9 +152,7 @@ export const UserSkillsUpdate = () => {
             {primarySkills.length === 0 ? (
               <p>Add skills</p>
             ) : (
-              console.log(primarySkills, "test before maping data"),
               primarySkills.map((item, index) => (
-                console.log(item, "llllll"),
                 item !== '' && <Card
                   className="skillcards"
                   key={index}
@@ -186,6 +165,7 @@ export const UserSkillsUpdate = () => {
               ))
             )}
           </div>
+          <div style={{display:"flex",flexDirection:'row'}}>
           <TextField
             id="primarySkills"
             label="Skill name"
@@ -204,6 +184,7 @@ export const UserSkillsUpdate = () => {
           >
             Add
           </Button>
+          </div>
           {skillInputError.primarySkill && (
             <p style={{ color: "red" }}>* Required</p>
           )}
@@ -228,6 +209,7 @@ export const UserSkillsUpdate = () => {
               ))
             )}
           </div>
+          <div style={{display:"flex",flexDirection:'row'}}>
           <TextField
             label="Skill name"
             variant="standard"
@@ -237,12 +219,14 @@ export const UserSkillsUpdate = () => {
             focused
             style={{ width: "16rem", paddingRight: "2rem" }}
           />
+         
           <Button
             variant="contained"
             onClick={() => handleclickbut("secondarySkills")}
           >
             Add
           </Button>
+          </div>  
           {skillInputError.secondarySkill && (
             <p style={{ color: "red" }}>* Required</p>
           )}
@@ -264,6 +248,7 @@ export const UserSkillsUpdate = () => {
               ))
             )}
           </div>
+          <div style={{display:"flex",flexDirection:'row'}}>
           <TextField
             label="Skill name"
             variant="standard"
@@ -279,6 +264,7 @@ export const UserSkillsUpdate = () => {
           >
             Add
           </Button>
+          </div>
           {skillInputError.additionalSkill && (
             <p style={{ color: "red" }}>* Required</p>
           )}

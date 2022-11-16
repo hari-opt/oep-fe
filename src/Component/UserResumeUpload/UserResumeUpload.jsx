@@ -17,7 +17,6 @@ export const UserResumeUpload = () => {
   }, []);
 
   const fileProperties = (data) => {
-    console.log(data.target.files[0], "while adding resume");
     setResumefile(data.target.files[0]);
   };
 
@@ -27,13 +26,10 @@ export const UserResumeUpload = () => {
 
   const postResume = async () => {
     setLoading(true);
-    console.log(resumefile, "oooooooooooooooooooooooooooooooo");
     const form = new FormData();
     form.append("file", resumefile, "certificate");
-    console.log("im working man");
     const url =
       "https://oep-backend-node.herokuapp.com/user-certifications/update/resume";
-    // const url = "http://192.168.2.130:9010/user-certifications/update/resume";
     const options = {
       method: "POST",
       headers: {
@@ -42,7 +38,6 @@ export const UserResumeUpload = () => {
       body: form,
     };
     const res = await fetch(url, options);
-    console.log(res, "resumeconsole");
     if (res.status === 200) {
       setResumefile("");
       setAlertOpen(true);
@@ -66,7 +61,6 @@ export const UserResumeUpload = () => {
     const res = await fetch(url, options);
     if (res.status === 200) {
       const data = await res.json();
-      console.log(data, "check resume file as uploaded");
       setResumeLink(data.userResume);
       // setResumefile(data.userResume);
       setResumeMsz("Resume Uploaded Successfully");
@@ -77,10 +71,8 @@ export const UserResumeUpload = () => {
   };
 
   const handleRemoveResume = async () => {
-    console.log(resumefile, "check uploaded file");
     const url =
       "https://oep-backend-node.herokuapp.com/user-certifications/delete/resume";
-    // const url = "http://192.168.2.130:9010/user-certifications/delete/resume";
     const options = {
       method: "DELETE",
       headers: {
@@ -90,8 +82,6 @@ export const UserResumeUpload = () => {
     const res = await fetch(url, options);
     if (res.status === 200) {
       const data = await res.json();
-      console.log(data, "deleteresponse");
-      console.log(resumefile, "resmmmm");
       setResumeMsz("Resume Removed");
       setTimeout(() => {
         setAlertOpen(false);
@@ -142,7 +132,7 @@ export const UserResumeUpload = () => {
               style={{ textDecoration: "none" }}
               rel="noreferrer"
             >
-              <label>View Resume</label>
+              <label style={{color:"#317ac7"}}>View Resume</label>
             </a>
           )}
           <Button
