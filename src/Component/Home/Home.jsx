@@ -26,7 +26,7 @@ export const Home = ({ primarytdata, imgfile, secondarydata, cetificate }) => {
   const handlelinks = (item) => {
     if (item == "HRMS") {
       window.open("https://optimum.peoplestrong.com/altLogin.jsf");
-    } else if (item == "Update Profile") {
+    } else if (item == "Update Skills") {
       navigate("../UpdateSkills");
     } else if (item === "Referrals") {
       navigate("../Referrals");
@@ -105,4 +105,4 @@ export const Home = ({ primarytdata, imgfile, secondarydata, cetificate }) => {
   );
 };
 
-const links = ["HRMS", "Update Profile", "Referrals", "Training"];
+const links = ["HRMS", "Update Skills", "Referrals", "Training"];
