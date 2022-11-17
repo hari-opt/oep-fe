@@ -200,10 +200,6 @@ export const Training = () => {
         <Header />
       </div>
       <div>
-        <div className="filtericon-style">
-          <label>Filter By:</label>
-          <FilterAltIcon onClick={handleClickFilter} />
-        </div>
         {loading ? (
           <PulseLoader
             loading={loading}
@@ -223,8 +219,12 @@ export const Training = () => {
                   <StyledTableCell align="center">To</StyledTableCell>
                   <StyledTableCell align="center">Mode</StyledTableCell>
                   <StyledTableCell align="center">Platform</StyledTableCell>
-                  <StyledTableCell align="center">Status</StyledTableCell>
-                  <StyledTableCell align="center"></StyledTableCell>
+                  <StyledTableCell align="center">
+                    <div className="filtericon-style">
+                      Status
+                      <FilterAltIcon onClick={handleClickFilter} />
+                    </div>
+                  </StyledTableCell>
                 </TableRow>
               </TableHead>
 
@@ -277,16 +277,27 @@ export const Training = () => {
                     >
                       <p>{item.enroll ? "Enrolled" : "Enroll"}</p>
                     </StyledTableCell>
-                    <StyledTableCell
-                      className="courses-list-style"
-                      align="center"
-                    >
-                      <div className="course-filter"></div>
-                    </StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
             </Table>
+            <Menu
+              id="basic-menu"
+              style={{ right: "15px", left: "85vw", top: "18vh" }}
+              anchorEl={anchorEl}
+              open={openFilter}
+              onClose={handleCloseFilter}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <MenuItem onClick={() => handleSelectEnroll("EnrolledCourses")}>
+                Enrolled Courses
+              </MenuItem>
+              <MenuItem onClick={() => handleSelectEnroll("Allcourses")}>
+                All Courses
+              </MenuItem>
+            </Menu>
           </TableContainer>
         ) : (
           <div id="noreferral">
@@ -381,22 +392,6 @@ export const Training = () => {
             </Dialog>
           </div>
         ) : null}
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={openFilter}
-          onClose={handleCloseFilter}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          <MenuItem onClick={() => handleSelectEnroll("EnrolledCourses")}>
-            Enrolled Courses
-          </MenuItem>
-          <MenuItem onClick={() => handleSelectEnroll("Allcourses")}>
-            All Courses
-          </MenuItem>
-        </Menu>
       </div>
     </>
   );
