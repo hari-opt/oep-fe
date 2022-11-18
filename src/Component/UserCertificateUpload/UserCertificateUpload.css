@@ -1,0 +1,51 @@
+input[type="file"]::file-selector-button {
+  border: 2px solid #317ac7;
+  padding: 0.2em 0.4em;
+  border-radius: 0.2em;
+  background-color: #317ac7;
+  transition: 1s;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #81ecec;
+  border: 2px solid #00cec9;
+}
+
+.link {
+  cursor: pointer;
+}
+.form-edit-certificate {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.edit-certificate-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 400px;
+}
+/* #edit-certification,
+#edit-certificationBy,
+#edit-validFrom,
+#edit-validTo,
+#edit-skills {
+  margin-bottom: 1rem;
+} */
+#edit-validFrom,
+#edit-validTo {
+  height: 2rem;
+  font-size: 1rem;
+  border: 2px solid #0070ad;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+.valid-from {
+  display: inline;
+  color: #0070ad;
+}
+.valid-to {
+  display: inline;
+  color: #0070ad;
+}
