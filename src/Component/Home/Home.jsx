@@ -86,4 +86,4 @@ export const Home = ({ primarytdata, imgfile, secondarydata, cetificate }) => {
   );
 };
 
-const links = ["HRMS", "Update Skills", "Referrals", "Training"];
+const links = ["HRMS", "Update Skills", "Referrals", "Trainings"];
