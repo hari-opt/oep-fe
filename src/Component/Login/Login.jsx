@@ -79,15 +79,6 @@ export const Login = () => {
     }
   };
 
-  const handleMessageBox = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      this.setState({
-        messageBox: "",
-      });
-    }
-  };
-
   const renderForm = (
     <div className="form">
       <form onSubmit={validate}>
@@ -98,12 +89,8 @@ export const Login = () => {
             onChange={(e) => {
               setemail(e.target.value);
             }}
-            multiline
-            maxRows={2}
             label="UserId"
             helperText={emailErrMessage}
-            type="number"
-            onKeyPress={(e) => handleMessageBox(e)}
           />
         </div>
         <div className="input-container">
@@ -117,23 +104,9 @@ export const Login = () => {
             helperText={PasswordErrMessage}
             type="password"
             autoComplete="current-password"
-            onKeyPress={(e) => handleMessageBox(e)}
           />
         </div>
-        <div className="register-link">
-          <p>New User ?&nbsp;</p>
 
-          <Link
-            component="button"
-            style={{ textDecoration: "none" }}
-            variant="body2"
-            onClick={() => {
-              navigate("/RegisterPage");
-            }}
-          >
-            Register&nbsp;
-          </Link>
-        </div>
         <div className="button-container">
           {loading === false ? (
             <Button type="submit" variant="contained">
@@ -151,6 +124,20 @@ export const Login = () => {
           )}
         </div>
       </form>
+      <div className="register-link">
+        <p>New User ?&nbsp;</p>
+
+        <Link
+          component="button"
+          style={{ textDecoration: "none" }}
+          variant="body2"
+          onClick={() => {
+            navigate("/RegisterPage");
+          }}
+        >
+          Register&nbsp;
+        </Link>
+      </div>
     </div>
   );
 

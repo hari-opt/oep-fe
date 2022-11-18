@@ -506,17 +506,17 @@ dt {
   justify-content: space-evenly;
 }
 
-@media screen and (max-width:768px) {
+@media screen and (max-width: 768px) {
   .containerskills {
     flex-direction: column;
   }
 }
-.user-skills{
+.user-skills {
   padding: 1rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   margin: 1rem;
 }
-.user-skills-savebutton{
+.user-skills-savebutton {
   display: flex;
   justify-content: flex-end;
 }
@@ -573,7 +573,6 @@ dt {
 input[type="text"],
 input[type="password"] {
   height: 25px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 input[type="submit"] {

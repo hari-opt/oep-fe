@@ -23,7 +23,7 @@
 }
 .sign-up {
   font-size: 25px;
-  margin-right: 2rem;
+  margin-right: 20px;
 }
 #imgland {
   width: 15rem;
@@ -31,7 +31,7 @@
 }
 .button-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 .input-container {
   display: flex;

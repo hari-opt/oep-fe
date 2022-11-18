@@ -148,7 +148,7 @@ export const RegisterPage = () => {
           console.log(data, "oooooooooooooooooooooooooooooooooooooo");
           if (data.msg === "User registered") {
             console.log("data->", data);
-            navigate("../");
+            navigate("/login");
           } else {
             alert("User already registered! Try to login");
           }
@@ -274,6 +274,16 @@ export const RegisterPage = () => {
         </div>
 
         <div className="button-container">
+          <Button
+            className="sign-up"
+            variant="contained"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            Login
+          </Button>
+
           <Button type="submit" variant="contained">
             Submit
           </Button>
@@ -286,15 +296,6 @@ export const RegisterPage = () => {
     <div className="app-reg">
       <div className="login-form">
         <div className="sign-up-title">
-          <div
-            className="sign-up"
-            onClick={() => {
-              navigate("../components/Dashboard");
-            }}
-          >
-            Sign Up
-          </div>
-
           <img src={require("../img/OEP.png")} alt="logo" id="imgland" />
         </div>
 
