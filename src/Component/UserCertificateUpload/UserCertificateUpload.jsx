@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { TextField, Button,Checkbox,Fab} from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
+import { TextField, Button, Checkbox, Alert } from "@mui/material";
 import Cookies from "js-cookie";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -10,17 +10,34 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import usePagination from "./Pagination";
-
+import EditIcon from "@mui/icons-material/Edit";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import moment from 'moment';
+
+import "./UserCertificateUpload.css";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  height: 450,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+};
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -42,17 +59,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
 export const UserCertificateUpload = () => {
   const [certificatedata, setCertificatedata] = useState([]);
   const [certificateInputError, setCertificateInputError] = useState(false);
   const [additionalSkills, setAdditionalSkills] = useState([]);
   const [noExpiry, setNoExpiry] = React.useState(false);
   const [openModal, setopenModal] = useState(false);
-  const [certId, setCertId] = useState('')
-  const [certvalidTo, setCertValidTo] = useState('')
-  const [certificatefile, setCertificatefile] = useState("");
+
+  const [certId, setCertId] = useState("");
+  const [certvalidTo, setCertValidTo] = useState("");
+  const [certificateFile, setCertificateFile] = useState("");
+  const [responseMsz, setResponseMsz] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [alertMsz, setAlertMsz] = useState("");
+  const [successMsz, setSuccessMsz] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [editableData, setEditableData] = useState([]);
+  console.log(editableData, "certificate bantu");
+  const handleClosemodal = () => setopenModal(false);
+  const fileInput = useRef(null);
   let [page, setPage] = useState(1);
+  const certificatedatafile = (data) => {
+    console.log(data.target.files[0], "bartiro certificate");
+    setCertificateFile(data.target.files[0]);
+  };
 
 
   var today = new Date();
@@ -69,13 +99,15 @@ export const UserCertificateUpload = () => {
   };
   const jwt = Cookies.get("jwt");
   const form = new FormData();
-  
-useEffect(() => {
+
+  useEffect(() => {
     getCertificate();
   }, []);
 
   const getCertificate = async () => {
-    const url ="https://oep-backend-node.herokuapp.com/certificates";
+
+    const url = "https://oep-backend-node.herokuapp.com/certificates";
+
     const options = {
       method: "GET",
       headers: {
@@ -83,24 +115,29 @@ useEffect(() => {
       },
     };
     const res = await fetch(url, options);
-    if(res.status == 200){
+    if (res.status == 200) {
       const data = await res.json();
-      const updateData = data.userCertifications.map(each=>{
+      console.log(data, "gettign data");
+      const updateData = data.userCertifications.map((each) => {
+        setCertId(each.id);
+
         return {
-            userId:each.userid,
-            certification:each.certification,
-            certificationBy:each.certificationby,
-            validFrom:each.validfrom,
-            validTo:each.validto,
-            skills:each.skills,
-            certificate:each.certificate,
-            certificateId:each.id
-        }
-        
-      })
+          userId: each.userid,
+          certification: each.certification,
+          certificationBy: each.certificationby,
+          validFrom: each.validfrom,
+          validTo: each.validto,
+          skills: each.skills,
+          certificate: each.certificate,
+          certificateId: each.id,
+        };
+      });
       setCertificatedata(updateData);
     }
   };
+
+
+ const handleCertificate = async (event) => {
 
   const PER_PAGE = 5;
   const count = Math.ceil(certificatedata.length / PER_PAGE);
@@ -115,13 +152,18 @@ useEffect(() => {
   _DATA.currentData().map((v) => {
     console.log(v,"dadadaddddddddddddddddd");
   })
- const handleCertificate = async (event) => {
+  const handleCertificate = async (event) => {
+
     event.preventDefault();
-    
+    const certificatekadata = document.getElementById("resume-form").files[0];
+    console.log(certificatekadata, "inputresume");
     const certification = document.getElementById("certification").value;
     const certificationBy = document.getElementById("certificationBy").value;
     const validFrom = document.getElementById("validFrom").value;
-    const validTo = document.getElementById("validTo") === null ? "" :  document.getElementById("validTo").value
+    const validTo =
+      document.getElementById("validTo") === null
+        ? ""
+        : document.getElementById("validTo").value;
     const skills = document.getElementById("skills").value;
     if (
       certification === "" ||
@@ -133,38 +175,52 @@ useEffect(() => {
     } else {
       setCertificateInputError(false);
       const form = new FormData();
-       //form.append("file", null, "certificate");
-       form.append("userCertifications",  JSON.stringify(
-        [{ certification, certificationBy, validFrom, validTo,noExpiry, skills }]
-      ));
 
-      const url ="https://oep-backend-node.herokuapp.com/certificates/new";
+      form.append("file", certificatekadata);
+      form.append(
+        "userCertifications",
+        JSON.stringify([
+          {
+            certification,
+            certificationBy,
+            validFrom,
+            validTo,
+            noExpiry,
+            skills,
+          },
+        ])
+      );
+      const url = "https://oep-backend-node.herokuapp.com/certificates/new";
       const options = {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${jwt}`
+          Authorization: `Bearer ${jwt}`,
         },
-        body: form
+        body: form,
       };
       console.log(options,certificatefile,"ppppppppppppppppppppppppp");
       const resp = await fetch(url, options);
-      console.log(resp.status,"ooooooooooooooooooooooooooooooooooo");
-      if(resp.status == 201){
+
+
+      console.log(resp.status, "status");
+      if (resp.status == 201) {
         getCertificate();
-        setCertValidTo('')
-        document.getElementById("certification").value= ''
-        document.getElementById("certificationBy").value =''
-        document.getElementById("validFrom").value=''
-        document.getElementById("validTo").value=''
-        document.getElementById("skills").value=''
+        setCertValidTo("");
+        document.getElementById("certification").value = "";
+        document.getElementById("certificationBy").value = "";
+        document.getElementById("validFrom").value = "";
+        document.getElementById("validTo").value = "";
+        document.getElementById("skills").value = "";
+        const dd = (document.getElementById("resume-form").files = "");
+        console.log(dd, "empltyfile");
       }
     }
-
   };
 
 
   const handleDelete = async () => {
     const url = `https://oep-backend-node.herokuapp.com/certificates/${certId}`
+
     const options = {
       method: "DELETE",
       headers: {
@@ -175,9 +231,86 @@ useEffect(() => {
     if (res.status === 200) {
       const data = await res.json();
       getCertificate();
-      setopenModal(false)
+      setopenModal(false);
     }
-   
+  };
+
+  const handleEditCertificate = async (event) => {
+    event.preventDefault();
+    const certificatekadata =
+      document.getElementById("edit-resume-form").files[0];
+    const certification = document.getElementById("edit-certification").value;
+    const certificationBy = document.getElementById(
+      "edit-certificationBy"
+    ).value;
+    const validFrom = document.getElementById("edit-validFrom").value;
+    const validTo =
+      document.getElementById("edit-validTo") === null
+        ? ""
+        : document.getElementById("edit-validTo").value;
+    const skills = document.getElementById("edit-skills").value;
+    console.log(
+      certificatekadata,
+      certification,
+      certificationBy,
+      validFrom,
+      validTo,
+      noExpiry,
+      skills,
+      "edit-inputresume"
+    );
+    if (
+      certification === "" ||
+      certificationBy === "" ||
+      validFrom === "" ||
+      skills === ""
+    ) {
+      setCertificateInputError(true);
+    } else {
+      setCertificateInputError(false);
+      const form = new FormData();
+      form.append("file", certificatekadata);
+      form.append(
+        "userCertifications",
+        JSON.stringify([
+          {
+            certification,
+            certificationBy,
+            validFrom,
+            validTo,
+            noExpiry,
+            skills,
+          },
+        ])
+      );
+      console.log(form.get("userCertifications"), "editcertform");
+      const url = `https://oep-backend-node.herokuapp.com/certificates/update/${certId}`;
+      const options = {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+        body: form,
+      };
+      console.log(options, "options");
+      const resp = await fetch(url, options);
+      if (resp.status == 200) {
+        getCertificate();
+        setopenModal(false);
+        setCertValidTo("");
+        document.getElementById("edit-certification").value = "";
+        document.getElementById("edit-certificationBy").value = "";
+        document.getElementById("edit-validFrom").value = "";
+        document.getElementById("edit-validTo").value = "";
+        document.getElementById("edit-skills").value = "";
+        const dd = (document.getElementById("edit-resume-form").files = "");
+        console.log(dd, "empltyfile");
+      }
+    }
+  };
+
+  const handleDataEdit = (item) => {
+    setEditableData(item);
   };
 
   const handleClickOpen = () => {
@@ -295,17 +428,148 @@ return(
       <label
         htmlFor=""
         style={{ fontSize: "0.8rem", paddingRight: "0.6rem",paddingLeft:"0.6rem" }}
-      >
-        No Expiry
-      </label>
 
-      <Checkbox
-  checked={noExpiry}
-  onChange={handleChange}
-  inputProps={{ 'aria-label': 'controlled' }}
-/>
-</>
-: ""}
+      >
+        <Box sx={style}>
+          {responseMsz === "Referred" ? <h4>{`User ${responseMsz}`}</h4> : null}
+          {alertMsz !== "" ? (
+            <Alert severity="error" variant="filled">
+              {alertMsz}
+            </Alert>
+          ) : null}
+          <form
+            onSubmit={handleEditCertificate}
+            className="form-edit-certificate"
+          >
+            <TextField
+              id="edit-certification"
+              label="Certificate Name"
+              variant="standard"
+              defaultValue={editableData.certification}
+              multiline
+              maxRows={2}
+              focused
+              style={{
+                width: "15rem",
+                paddingRight: "2rem",
+                marginBottom: "2rem",
+              }}
+            />
+            <TextField
+              id="edit-certificationBy"
+              label="Certification by"
+              variant="standard"
+              defaultValue={editableData.certificationBy}
+              multiline
+              maxRows={2}
+              focused
+              style={{
+                width: "15rem",
+                paddingRight: "2rem",
+                marginBottom: "2rem",
+              }}
+            />
+            <div className="valid-from">
+              <label
+                htmlFor=""
+                style={{ fontSize: "0.8rem", paddingRight: "0.6rem" }}
+              >
+                Valid from
+              </label>
+              <input
+                id="edit-validFrom"
+                type="date"
+                defaultValue={editableData.validFrom}
+              />
+            </div>
+            <div className="valid-to">
+              {noExpiry === false ? (
+                <>
+                  <label
+                    htmlFor=""
+                    style={{ fontSize: "0.8rem", paddingRight: "1.6rem" }}
+                  >
+                    Valid To
+                  </label>
+                  <input
+                    id="edit-validTo"
+                    type="date"
+                    defaultValue={editableData.validTo}
+                    onChange={(e) => setCertValidTo(e.target.value)}
+                  />
+                </>
+              ) : (
+                ""
+              )}
+              {certvalidTo === "" ? (
+                <>
+                  <label
+                    htmlFor=""
+                    style={{
+                      fontSize: "0.8rem",
+                      paddingRight: "0.6rem",
+                      paddingLeft: "0.6rem",
+                    }}
+                  >
+                    No Expiry
+                  </label>
+
+                  <Checkbox
+                    checked={noExpiry}
+                    onChange={handleChange}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />
+                </>
+              ) : (
+                ""
+              )}
+            </div>
+            <TextField
+              id="edit-skills"
+              label="Skills"
+              variant="standard"
+              defaultValue={editableData.skills}
+              multiline
+              maxRows={2}
+              focused
+              style={{
+                width: "10rem",
+                paddingRight: "2rem",
+                marginBottom: "2rem",
+              }}
+            />
+            <label>
+              <input
+                className="input-field"
+                type="file"
+                id="edit-resume-form"
+                // ref={fileInput}
+                name="file"
+              />
+            </label>
+            <div className="edit-certificate-buttons">
+              <Button
+                onClick={() => setopenModal(false)}
+                variant="contained"
+                style={{ marginTop: "1rem" }}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                style={{ marginTop: "1rem" }}
+              >
+                Add
+              </Button>
+            </div>
+            <br />
+            {certificateInputError && (
+              <p style={{ color: "red" }}>* All Fields are required</p>
+            )}
+          </form>
+        </Box>
+      </Modal>
     </div>
     <TextField
       id="skills"
@@ -398,3 +662,4 @@ return(
 
 </div>
 )}
+
