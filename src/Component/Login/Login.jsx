@@ -100,7 +100,6 @@ export const Login = () => {
             onChange={(e) => {
               setpassword(e.target.value);
             }}
-            
             label="Password"
             helperText={PasswordErrMessage}
             type="password"

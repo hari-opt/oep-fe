@@ -28,7 +28,7 @@ export const UserResumeUpload = () => {
   const postResume = async () => {
     setLoading(true);
     const form = new FormData();
-    form.append("file", resumefile, "resume");
+    form.append("file", resumefile, "certificate");
     const url =
       "https://oep-backend-node.herokuapp.com/user-certifications/update/resume";
     const options = {
