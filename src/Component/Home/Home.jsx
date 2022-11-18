@@ -30,29 +30,10 @@ export const Home = ({ primarytdata, imgfile, secondarydata, cetificate }) => {
       navigate("../UpdateSkills");
     } else if (item === "Referrals") {
       navigate("../Referrals");
-    } else if (item === "Training") {
+    } else if (item === "Trainings") {
       navigate("/Training");
     }
   };
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.gray,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
 
   const handleSubmit = () => {
     console.log("in on submit");
@@ -76,13 +57,13 @@ export const Home = ({ primarytdata, imgfile, secondarydata, cetificate }) => {
     <div>
       <Header />
       <div className="container">
-        <div className="header2">
+        {/* <div className="header2">
           <h4 className="child2">All News</h4>
           <h4 className="child2">India</h4>
           <h4 className="child2">Sales</h4>
           <h4 className="child2">Openings</h4>
           <h4 className="child2">Useful Links</h4>
-        </div>
+        </div> */}
         <div className="imagecontent">
           <Carousel />
           <div>
@@ -99,10 +80,10 @@ export const Home = ({ primarytdata, imgfile, secondarydata, cetificate }) => {
             ))}
           </ul>
         </div>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </div>
   );
 };
 
-const links = ["HRMS", "Update Profile", "Referrals", "Training"];
+const links = ["HRMS", "Update Profile", "Referrals", "Trainings"];

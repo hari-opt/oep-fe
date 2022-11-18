@@ -17,6 +17,7 @@ export const UserResumeUpload = () => {
   }, []);
 
   const fileProperties = (data) => {
+    // console.log(data.target.files[0], "asaiiinne");
     setResumefile(data.target.files[0]);
   };
 
@@ -132,7 +133,7 @@ export const UserResumeUpload = () => {
               style={{ textDecoration: "none" }}
               rel="noreferrer"
             >
-              <label style={{color:"#317ac7"}}>View Resume</label>
+              <label style={{ color: "#317ac7" }}>View Resume</label>
             </a>
           )}
           <Button
