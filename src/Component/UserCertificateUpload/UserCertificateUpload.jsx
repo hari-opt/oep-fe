@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button,Checkbox} from "@mui/material";
+import { TextField, Button,Checkbox,Fab} from "@mui/material";
 import Cookies from "js-cookie";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -15,7 +15,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import usePagination from "./Pagination";
 
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import moment from 'moment';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -46,7 +51,19 @@ export const UserCertificateUpload = () => {
   const [openModal, setopenModal] = useState(false);
   const [certId, setCertId] = useState('')
   const [certvalidTo, setCertValidTo] = useState('')
+  const [certificatefile, setCertificatefile] = useState("");
+  let [page, setPage] = useState(1);
 
+
+  var today = new Date();
+  var currentdate = moment(today).format('YYYY-MM-DD');
+
+  console.log(currentdate,"dateeeeeeeeeeeeeee");
+  const fileProperties = (data) => {
+    console.log(data.target.files[0],"oooooooooooooooo");
+    setCertificatefile(data.target.files[0]);
+  };
+  
   const handleChange = (event) => {
     setNoExpiry(event.target.checked);
   };
@@ -58,7 +75,7 @@ useEffect(() => {
   }, []);
 
   const getCertificate = async () => {
-    const url ="https://oep-backend-node.herokuapp.com/user-certifications/certificates";
+    const url ="https://oep-backend-node.herokuapp.com/certificates";
     const options = {
       method: "GET",
       headers: {
@@ -69,7 +86,6 @@ useEffect(() => {
     if(res.status == 200){
       const data = await res.json();
       const updateData = data.userCertifications.map(each=>{
-        setCertId(each.id)
         return {
             userId:each.userid,
             certification:each.certification,
@@ -85,6 +101,20 @@ useEffect(() => {
       setCertificatedata(updateData);
     }
   };
+
+  const PER_PAGE = 5;
+  const count = Math.ceil(certificatedata.length / PER_PAGE);
+  const _DATA = usePagination(certificatedata, PER_PAGE);
+  
+  const handleChangePage = (e, p) => {
+    setPage(p);
+    _DATA.jump(p);
+  };
+
+  console.log( _DATA ,"111111111111111111111111111111");
+  _DATA.currentData().map((v) => {
+    console.log(v,"dadadaddddddddddddddddd");
+  })
  const handleCertificate = async (event) => {
     event.preventDefault();
     
@@ -102,20 +132,24 @@ useEffect(() => {
       setCertificateInputError(true);
     } else {
       setCertificateInputError(false);
-      const url ="https://oep-backend-node.herokuapp.com/user-certifications/update/certificates";
+      const form = new FormData();
+       //form.append("file", null, "certificate");
+       form.append("userCertifications",  JSON.stringify(
+        [{ certification, certificationBy, validFrom, validTo,noExpiry, skills }]
+      ));
+
+      const url ="https://oep-backend-node.herokuapp.com/certificates/new";
       const options = {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${jwt}`,
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`
         },
-        body: JSON.stringify({
-          userCertifications: [
-          { certification, certificationBy, validFrom, validTo,noExpiry, skills, }]
-        }),
+        body: form
       };
+      console.log(options,certificatefile,"ppppppppppppppppppppppppp");
       const resp = await fetch(url, options);
-      if(resp.status == 200){
+      console.log(resp.status,"ooooooooooooooooooooooooooooooooooo");
+      if(resp.status == 201){
         getCertificate();
         setCertValidTo('')
         document.getElementById("certification").value= ''
@@ -128,8 +162,9 @@ useEffect(() => {
 
   };
 
+
   const handleDelete = async () => {
-    const url = `https://oep-backend-node.herokuapp.com/user-certifications/delete/certificate/ ${certId}`
+    const url = `https://oep-backend-node.herokuapp.com/certificates/${certId}`
     const options = {
       method: "DELETE",
       headers: {
@@ -153,6 +188,12 @@ useEffect(() => {
     setopenModal(false);
   };
 
+  const deletecertificate = (data) =>{
+    setCertId(data.certificateId)
+    setopenModal(true)
+  }
+
+
 return(
 <div>
 <div className="childcertificate">
@@ -171,8 +212,8 @@ return(
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleDelete} autoFocus>Delete</Button>
+          <Button  variant="contained" onClick={handleClose}>Cancel</Button>
+          <Button  variant="contained" color="error" onClick={handleDelete}>Delete</Button>
         </DialogActions>
       </Dialog>
 
@@ -214,6 +255,7 @@ return(
       <input
         id="validFrom"
         type="date"
+        max={currentdate}
         style={{
           height: "2rem",
           fontSize: "1rem",
@@ -287,6 +329,7 @@ return(
       <p style={{ color: "red" }}>* All Fields are required</p>
     )}
   </form>
+
   {certificatedata.length === 0 ? (
     <p style={{ textAlign: "center" }}>Add certificates</p>
   ) : (
@@ -305,8 +348,9 @@ return(
           </TableRow>
         </TableHead>
         <TableBody>
-          {certificatedata.flat(1).map((item, index) => (
-           
+          {console.log(certificatedata.length,"ppppppppppppppppppppppppp")}
+         
+          { _DATA.currentData().map((item) => (
             <StyledTableRow key={item.certificateId}>
               <StyledTableCell component="th" scope="row">
               {item.certification}
@@ -329,7 +373,7 @@ return(
               </StyledTableCell>
               <StyledTableCell align="right">
                 <DeleteIcon
-                  onClick={() => setopenModal(true)}
+                  onClick={() => deletecertificate(item)}
                 />
               </StyledTableCell>
             </StyledTableRow>
@@ -338,6 +382,19 @@ return(
       </Table>
     </TableContainer>
   )}
+  <div style={{marginTop:"10px",display:"flex",justifyContent:'flex-end'}}>
+  <Stack spacing={2}>
+  <Pagination
+        count={count}
+        size="large"
+        page={page}
+        variant="outlined"
+        shape="rounded"
+        onChange={handleChangePage}
+      />
+    </Stack>
+    </div>
 </div>
+
 </div>
 )}
