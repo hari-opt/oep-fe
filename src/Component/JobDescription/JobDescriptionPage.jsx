@@ -18,7 +18,6 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  height: 568,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
@@ -288,7 +287,7 @@ export const JobDescriptionPage = ({ props }) => {
               <br />
               <br />
             </label>
-            {resume !== "" ? <h4>{resume}</h4> : null}
+            {resume !== "" ? <h5>{resume}</h5> : null}
           </div>
 
           <div className="refferal-cancel-button">

@@ -55,7 +55,7 @@ export const MyRefferal = () => {
         <ArrowBackIcon
           style={{ fontSize: "40" }}
           className="back-arrow"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/Referrals")}
         />
         <Header />
       </div>

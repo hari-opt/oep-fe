@@ -19,6 +19,10 @@ import "./UserCertificateUpload.css";
 import EditIcon from "@mui/icons-material/Edit";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+import usePagination from "./Pagination";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const style = {
   position: "absolute",
@@ -57,7 +61,8 @@ export const UserCertificateUpload = () => {
   const [certificateInputError, setCertificateInputError] = useState(false);
   const [additionalSkills, setAdditionalSkills] = useState([]);
   const [noExpiry, setNoExpiry] = React.useState(false);
-  const [openModal, setopenModal] = useState(false);
+  const [openModalEdit, setopenModalEdit] = useState(false);
+  const [openModalDelete, setopenModalDelete] = useState(false);
   const [certId, setCertId] = useState("");
   const [certvalidTo, setCertValidTo] = useState("");
   const [certificateFile, setCertificateFile] = useState("");
@@ -68,8 +73,9 @@ export const UserCertificateUpload = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [editableData, setEditableData] = useState([]);
   console.log(editableData, "certificate bantu");
-  const handleClosemodal = () => setopenModal(false);
+  const handleClosemodal = () => setopenModalEdit(false);
   const fileInput = useRef(null);
+  let [page, setPage] = useState(1);
 
   const certificatedatafile = (data) => {
     console.log(data.target.files[0], "bartiro certificate");
@@ -99,7 +105,6 @@ export const UserCertificateUpload = () => {
       const data = await res.json();
       console.log(data, "gettign data");
       const updateData = data.userCertifications.map((each) => {
-        setCertId(each.id);
         return {
           userId: each.userid,
           certification: each.certification,
@@ -113,6 +118,15 @@ export const UserCertificateUpload = () => {
       });
       setCertificatedata(updateData);
     }
+  };
+
+  const PER_PAGE = 5;
+  const count = Math.ceil(certificatedata.length / PER_PAGE);
+  const _DATA = usePagination(certificatedata, PER_PAGE);
+
+  const handleChangePage = (e, p) => {
+    setPage(p);
+    _DATA.jump(p);
   };
 
   const handleCertificate = async (event) => {
@@ -169,8 +183,7 @@ export const UserCertificateUpload = () => {
         document.getElementById("validFrom").value = "";
         document.getElementById("validTo").value = "";
         document.getElementById("skills").value = "";
-        const dd = (document.getElementById("resume-form").files = "");
-        console.log(dd, "empltyfile");
+        fileInput.current.value = "";
       }
     }
   };
@@ -187,7 +200,7 @@ export const UserCertificateUpload = () => {
     if (res.status === 200) {
       const data = await res.json();
       getCertificate();
-      setopenModal(false);
+      setopenModalDelete(false);
     }
   };
 
@@ -205,16 +218,7 @@ export const UserCertificateUpload = () => {
         ? ""
         : document.getElementById("edit-validTo").value;
     const skills = document.getElementById("edit-skills").value;
-    console.log(
-      certificatekadata,
-      certification,
-      certificationBy,
-      validFrom,
-      validTo,
-      noExpiry,
-      skills,
-      "edit-inputresume"
-    );
+    console.log(certificatekadata, "edit-inputresume");
     if (
       certification === "" ||
       certificationBy === "" ||
@@ -252,15 +256,15 @@ export const UserCertificateUpload = () => {
       const resp = await fetch(url, options);
       if (resp.status == 200) {
         getCertificate();
-        setopenModal(false);
+        setopenModalEdit(false);
         setCertValidTo("");
         document.getElementById("edit-certification").value = "";
         document.getElementById("edit-certificationBy").value = "";
         document.getElementById("edit-validFrom").value = "";
         document.getElementById("edit-validTo").value = "";
         document.getElementById("edit-skills").value = "";
-        const dd = (document.getElementById("edit-resume-form").files = "");
-        console.log(dd, "empltyfile");
+        document.getElementById("edit-resume-form").files[0] = "";
+        document.getElementById("resume-form").files[0] = "";
       }
     }
   };
@@ -269,19 +273,24 @@ export const UserCertificateUpload = () => {
     setEditableData(item);
   };
 
-  const handleClickOpen = () => {
-    setopenModal(true);
-  };
+  // const handleClickOpen = () => {
+  //   setopenModal(true);
+  // };
 
   const handleClose = () => {
-    setopenModal(false);
+    setopenModalDelete(false);
+  };
+
+  const deletecertificate = (data) => {
+    setCertId(data.certificateId);
+    setopenModalDelete(true);
   };
 
   return (
     <div>
       <div className="childcertificate">
         <Dialog
-          open={openModal}
+          open={openModalDelete}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
@@ -295,8 +304,10 @@ export const UserCertificateUpload = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleDelete} autoFocus>
+            <Button variant="contained" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="error" onClick={handleDelete}>
               Delete
             </Button>
           </DialogActions>
@@ -411,14 +422,16 @@ export const UserCertificateUpload = () => {
             focused
             style={{ width: "10rem", paddingRight: "2rem" }}
           />
-          <label>
+          <label for="resume-form" className="file-select">
             <input
               className="input-field"
               type="file"
               id="resume-form"
-              // ref={fileInput}
+              ref={fileInput}
               name="file"
             />
+            <AddCircleOutlineIcon />
+            Select File
           </label>
           <Button
             type="submit"
@@ -455,7 +468,7 @@ export const UserCertificateUpload = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {certificatedata.flat(1).map((item, index) => (
+                {_DATA.currentData().map((item) => (
                   <StyledTableRow
                     key={item.certificateId}
                     onClick={() => handleDataEdit(item)}
@@ -492,10 +505,10 @@ export const UserCertificateUpload = () => {
                       </a>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <EditIcon onClick={() => setopenModal(true)} />
+                      <EditIcon onClick={() => setopenModalEdit(true)} />
                     </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <DeleteIcon onClick={() => setopenModal(true)} />
+                    <StyledTableCell align="right">
+                      <DeleteIcon onClick={() => deletecertificate(item)} />
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
@@ -504,8 +517,27 @@ export const UserCertificateUpload = () => {
           </TableContainer>
         )}
       </div>
+
+      <div
+        style={{
+          marginTop: "10px",
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        <Stack spacing={2}>
+          <Pagination
+            count={count}
+            size="large"
+            page={page}
+            variant="outlined"
+            shape="rounded"
+            onChange={handleChangePage}
+          />
+        </Stack>
+      </div>
       <Modal
-        open={openModal}
+        open={openModalEdit}
         onClose={handleClosemodal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -629,7 +661,7 @@ export const UserCertificateUpload = () => {
             </label>
             <div className="edit-certificate-buttons">
               <Button
-                onClick={() => setopenModal(false)}
+                onClick={() => openModalEdit(false)}
                 variant="contained"
                 style={{ marginTop: "1rem" }}
               >

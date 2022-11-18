@@ -37,50 +37,11 @@ export const ReferalPage = () => {
   const jwt = Cookies.get("jwt");
   let navigate = useNavigate();
 
-  const BootstrapInput = styled(InputBase)(({ theme }) => ({
-    "label + &": {
-      marginTop: theme.spacing(3),
-    },
-    "& .MuiInputBase-input": {
-      borderRadius: 4,
-      position: "relative",
-      backgroundColor: theme.palette.mode === "light" ? "#fcfcfb" : "#2b2b2b",
-      border: "1px solid #ced4da",
-      fontSize: 16,
-      width: "25rem",
-      height: "1rem",
-      padding: "10px 12px",
-      transition: theme.transitions.create([
-        "border-color",
-        "background-color",
-        "box-shadow",
-      ]),
-      // Use the system font instead of the default Roboto font.
-      fontFamily: [
-        "-apple-system",
-        "BlinkMacSystemFont",
-        '"Segoe UI"',
-        "Roboto",
-        '"Helvetica Neue"',
-        "Arial",
-        "sans-serif",
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(","),
-      "&:focus": {
-        boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-        borderColor: theme.palette.primary.main,
-      },
-    },
-  }));
-
-
   useEffect(() => {
     handleSubmit();
   }, []);
 
-  console.log(searchInput,"]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+  console.log(searchInput, "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
   const handleSubmit = () => {
     console.log("in on submit");
     setLoading(true);
@@ -118,17 +79,15 @@ export const ReferalPage = () => {
         <Header />
       </div>
       <div className="referralheader2">
-        <div className="refferal-instructions">
-          <h4>Please click on a job to apply or to refer a friend</h4>
-          <h4>Click below button to track your referrals</h4>
-          <Button
-            variant="outlined"
-            style={{ backgroundColor: "white", marginBottom: "1rem" }}
-            onClick={() => navigate("/MyRefferalPage")}
-          >
-            My Refferals
-          </Button>
-        </div>
+        <h4>Please click on a job to apply or to refer a friend</h4>
+        <h4>Click below button to track your referrals</h4>
+        <Button
+          variant="outlined"
+          style={{ backgroundColor: "white", marginBottom: "1rem" }}
+          onClick={() => navigate("/MyRefferalPage")}
+        >
+          My Refferals
+        </Button>
       </div>
       <div className="jobfilterdiv">
         <Grid container spacing={2} className="">
@@ -192,11 +151,13 @@ export const ReferalPage = () => {
                 border: "1px solid #0070ad",
                 color: "#0070ad",
               }}
-              onClick={() =>setSearchInput({
-                byJobName: "",
-                byLocation: "",
-                byDate: "",
-              })}
+              onClick={() =>
+                setSearchInput({
+                  byJobName: "",
+                  byLocation: "",
+                  byDate: "",
+                })
+              }
             >
               Reset
             </Button>

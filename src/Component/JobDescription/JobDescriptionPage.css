@@ -21,7 +21,7 @@
 .refferal-resume-upload {
   display: flex;
   justify-content: space-between;
-  flex-direction: column;
+  flex-direction: row;
   margin-top: 20px;
   text-align: right;
 }
