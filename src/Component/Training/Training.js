@@ -217,6 +217,9 @@ export const Training = () => {
                   <StyledTableCell align="center">Course</StyledTableCell>
                   <StyledTableCell align="center">From</StyledTableCell>
                   <StyledTableCell align="center">To</StyledTableCell>
+                  <StyledTableCell align="center">
+                    Last Date to enroll
+                  </StyledTableCell>
                   <StyledTableCell align="center">Mode</StyledTableCell>
                   <StyledTableCell align="center">Platform</StyledTableCell>
                   <StyledTableCell align="center">
@@ -258,6 +261,12 @@ export const Training = () => {
                       align="center"
                     >
                       {item.to}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      className="courses-list-style"
+                      align="center"
+                    >
+                      {item.lastdate}
                     </StyledTableCell>
                     <StyledTableCell
                       className="courses-list-style"
