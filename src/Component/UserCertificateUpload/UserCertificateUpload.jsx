@@ -21,8 +21,6 @@ import usePagination from "./Pagination";
 import EditIcon from "@mui/icons-material/Edit";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import usePagination from "./Pagination";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 import "./UserCertificateUpload.css";
