@@ -264,7 +264,6 @@ export const UserCertificateUpload = () => {
         document.getElementById("edit-validTo").value = "";
         document.getElementById("edit-skills").value = "";
         document.getElementById("edit-resume-form").files[0] = "";
-        document.getElementById("resume-form").files[0] = "";
       }
     }
   };
@@ -284,6 +283,11 @@ export const UserCertificateUpload = () => {
   const deletecertificate = (data) => {
     setCertId(data.certificateId);
     setopenModalDelete(true);
+  };
+
+  const editcertificate = (data) => {
+    setCertId(data.certificateId);
+    setopenModalEdit(true);
   };
 
   return (
@@ -505,7 +509,7 @@ export const UserCertificateUpload = () => {
                       </a>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <EditIcon onClick={() => setopenModalEdit(true)} />
+                      <EditIcon onClick={() => editcertificate(item)} />
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       <DeleteIcon onClick={() => deletecertificate(item)} />
@@ -650,7 +654,7 @@ export const UserCertificateUpload = () => {
                 marginBottom: "2rem",
               }}
             />
-            <label>
+            <label for="edit-resume-form" className="file-select">
               <input
                 className="input-field"
                 type="file"
@@ -658,10 +662,12 @@ export const UserCertificateUpload = () => {
                 // ref={fileInput}
                 name="file"
               />
+              <AddCircleOutlineIcon />
+              Select File
             </label>
             <div className="edit-certificate-buttons">
               <Button
-                onClick={() => openModalEdit(false)}
+                onClick={() => setopenModalEdit(false)}
                 variant="contained"
                 style={{ marginTop: "1rem" }}
               >

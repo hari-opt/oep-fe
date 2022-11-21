@@ -1,4 +1,7 @@
-input[type="file"] {
+#resume-form {
+  display: none;
+}
+#edit-resume-form {
   display: none;
 }
 
