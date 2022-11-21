@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useRef } from "react";
 import { TextField, Button, Checkbox, Alert } from "@mui/material";
 import Cookies from "js-cookie";
@@ -96,6 +94,7 @@ export const UserCertificateUpload = () => {
 
   const getCertificate = async () => {
     const url = "https://oep-backend-node.herokuapp.com/certificates";
+    // const url = "http://localhost:9010/certificates";
     const options = {
       method: "GET",
       headers: {
@@ -168,6 +167,7 @@ export const UserCertificateUpload = () => {
         ])
       );
       const url = "https://oep-backend-node.herokuapp.com/certificates/new";
+      // const url = "http://localhost:9010/certificates/new";
       const options = {
         method: "POST",
         headers: {
@@ -192,6 +192,7 @@ export const UserCertificateUpload = () => {
 
   const handleDelete = async () => {
     const url = `https://oep-backend-node.herokuapp.com/user-certifications/delete/certificate/ ${certId}`;
+    // const url = `http://localhost:9010/user-certifications/delete/certificate/ ${certId}`;
     const options = {
       method: "DELETE",
       headers: {
@@ -220,6 +221,12 @@ export const UserCertificateUpload = () => {
         ? ""
         : document.getElementById("edit-validTo").value;
     const skills = document.getElementById("edit-skills").value;
+    const certificate = document.getElementById("certificate-change").innerHTML;
+    console.log(
+      "file",
+      document.getElementById("certificate-change").innerHTML
+    );
+    // let certificate = null;
     console.log(certificatekadata, "edit-inputresume");
     if (
       certification === "" ||
@@ -231,7 +238,12 @@ export const UserCertificateUpload = () => {
     } else {
       setCertificateInputError(false);
       const form = new FormData();
-      form.append("file", certificatekadata);
+      certificatekadata &&
+        form.append(
+          "file",
+          certificatekadata
+          // , `${certification}`
+        );
       form.append(
         "userCertifications",
         JSON.stringify([
@@ -242,11 +254,13 @@ export const UserCertificateUpload = () => {
             validTo,
             noExpiry,
             skills,
+            certificate,
           },
         ])
       );
       console.log(form.get("userCertifications"), "editcertform");
-      const url = `https://oep-backend-node.herokuapp.com/certificates/update/${certId}`;
+      // const url = `https://oep-backend-node.herokuapp.com/certificates/update/${certId}`;
+      const url = `http://localhost:9010/certificates/update/${certId}`;
       const options = {
         method: "PUT",
         headers: {
@@ -656,6 +670,8 @@ export const UserCertificateUpload = () => {
                 marginBottom: "2rem",
               }}
             />
+            <p id="certificate-change">{editableData.certificate}</p>
+            <br />
             <label for="edit-resume-form" className="file-select">
               <input
                 className="input-field"
