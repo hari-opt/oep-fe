@@ -21,10 +21,13 @@ import usePagination from "./Pagination";
 import EditIcon from "@mui/icons-material/Edit";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+import usePagination from "./Pagination";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import moment from 'moment';
 
 import "./UserCertificateUpload.css";
+
 
 const style = {
   position: "absolute",
@@ -64,7 +67,8 @@ export const UserCertificateUpload = () => {
   const [certificateInputError, setCertificateInputError] = useState(false);
   const [additionalSkills, setAdditionalSkills] = useState([]);
   const [noExpiry, setNoExpiry] = React.useState(false);
-  const [openModal, setopenModal] = useState(false);
+  const [openModalEdit, setopenModalEdit] = useState(false);
+  const [openModalDelete, setopenModalDelete] = useState(false);
 
   const [certId, setCertId] = useState("");
   const [certvalidTo, setCertValidTo] = useState("");
@@ -76,9 +80,10 @@ export const UserCertificateUpload = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [editableData, setEditableData] = useState([]);
   console.log(editableData, "certificate bantu");
-  const handleClosemodal = () => setopenModal(false);
+  const handleClosemodal = () => setopenModalEdit(false);
   const fileInput = useRef(null);
   let [page, setPage] = useState(1);
+
   const certificatedatafile = (data) => {
     console.log(data.target.files[0], "bartiro certificate");
     setCertificateFile(data.target.files[0]);
@@ -119,8 +124,6 @@ export const UserCertificateUpload = () => {
       const data = await res.json();
       console.log(data, "gettign data");
       const updateData = data.userCertifications.map((each) => {
-        setCertId(each.id);
-
         return {
           userId: each.userid,
           certification: each.certification,
@@ -137,21 +140,18 @@ export const UserCertificateUpload = () => {
   };
 
 
- const handleCertificate = async (event) => {
-
   const PER_PAGE = 5;
   const count = Math.ceil(certificatedata.length / PER_PAGE);
   const _DATA = usePagination(certificatedata, PER_PAGE);
-  
+
+
+
   const handleChangePage = (e, p) => {
     setPage(p);
     _DATA.jump(p);
   };
 
-  console.log( _DATA ,"111111111111111111111111111111");
-  _DATA.currentData().map((v) => {
-    console.log(v,"dadadaddddddddddddddddd");
-  })
+
   const handleCertificate = async (event) => {
 
     event.preventDefault();
@@ -211,8 +211,7 @@ export const UserCertificateUpload = () => {
         document.getElementById("validFrom").value = "";
         document.getElementById("validTo").value = "";
         document.getElementById("skills").value = "";
-        const dd = (document.getElementById("resume-form").files = "");
-        console.log(dd, "empltyfile");
+        fileInput.current.value = "";
       }
     }
   };
@@ -231,7 +230,7 @@ export const UserCertificateUpload = () => {
     if (res.status === 200) {
       const data = await res.json();
       getCertificate();
-      setopenModal(false);
+      setopenModalDelete(false);
     }
   };
 
@@ -249,16 +248,7 @@ export const UserCertificateUpload = () => {
         ? ""
         : document.getElementById("edit-validTo").value;
     const skills = document.getElementById("edit-skills").value;
-    console.log(
-      certificatekadata,
-      certification,
-      certificationBy,
-      validFrom,
-      validTo,
-      noExpiry,
-      skills,
-      "edit-inputresume"
-    );
+    console.log(certificatekadata, "edit-inputresume");
     if (
       certification === "" ||
       certificationBy === "" ||
@@ -296,15 +286,14 @@ export const UserCertificateUpload = () => {
       const resp = await fetch(url, options);
       if (resp.status == 200) {
         getCertificate();
-        setopenModal(false);
+        setopenModalEdit(false);
         setCertValidTo("");
         document.getElementById("edit-certification").value = "";
         document.getElementById("edit-certificationBy").value = "";
         document.getElementById("edit-validFrom").value = "";
         document.getElementById("edit-validTo").value = "";
         document.getElementById("edit-skills").value = "";
-        const dd = (document.getElementById("edit-resume-form").files = "");
-        console.log(dd, "empltyfile");
+        document.getElementById("edit-resume-form").files[0] = "";
       }
     }
   };
@@ -313,122 +302,279 @@ export const UserCertificateUpload = () => {
     setEditableData(item);
   };
 
-  const handleClickOpen = () => {
-    setopenModal(true);
-  };
+  // const handleClickOpen = () => {
+  //   setopenModal(true);
+  // };
 
   const handleClose = () => {
-    setopenModal(false);
+    setopenModalDelete(false);
   };
 
-  const deletecertificate = (data) =>{
-    setCertId(data.certificateId)
-    setopenModal(true)
-  }
+  const deletecertificate = (data) => {
+    setCertId(data.certificateId);
+    setopenModalDelete(true);
+  };
 
+  const editcertificate = (data) => {
+    setCertId(data.certificateId);
+    setopenModalEdit(true);
+  };
 
-return(
-<div>
-<div className="childcertificate">
-<Dialog
-        open={openModal}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Delete Certificate"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-              Do you want to delete certificate ? 
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button  variant="contained" onClick={handleClose}>Cancel</Button>
-          <Button  variant="contained" color="error" onClick={handleDelete}>Delete</Button>
-        </DialogActions>
-      </Dialog>
+  return (
+    <div>
+      <div className="childcertificate">
+        <Dialog
+          open={openModalDelete}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Delete Certificate"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Do you want to delete certificate ?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="error" onClick={handleDelete}>
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
 
-  <form onSubmit={handleCertificate}>
-    <h3 style={{ fontFamily: "revert" }}>Certificates</h3>
-    <TextField
-      id="certification"
-      label="Certificate Name"
-      variant="standard"
-      multiline
-      maxRows={2}
-      focused
-      style={{ width: "15rem", paddingRight: "2rem" }}
-    />
-    <TextField
-      id="certificationBy"
-      label="Certification by"
-      variant="standard"
-      multiline
-      maxRows={2}
-      focused
-      style={{ width: "15rem", paddingRight: "2rem" }}
-    />
-    <div
-      style={{
-        display: "inline",
-      }}
-    >
-      <label
-        htmlFor=""
+        <form onSubmit={handleCertificate}>
+          <h3 style={{ fontFamily: "revert" }}>Certificates</h3>
+          <TextField
+            id="certification"
+            label="Certificate Name"
+            variant="standard"
+            multiline
+            maxRows={2}
+            focused
+            style={{ width: "15rem", paddingRight: "2rem" }}
+          />
+          <TextField
+            id="certificationBy"
+            label="Certification by"
+            variant="standard"
+            multiline
+            maxRows={2}
+            focused
+            style={{ width: "15rem", paddingRight: "2rem" }}
+          />
+          <div
+            style={{
+              display: "inline",
+            }}
+          >
+            <label
+              htmlFor=""
+              style={{
+                fontSize: "0.8rem",
+                paddingRight: "0.6rem",
+                color: "#0070ad",
+              }}
+            >
+              Valid from
+            </label>
+            <input
+              id="validFrom"
+              type="date"
+              style={{
+                height: "2rem",
+                fontSize: "1rem",
+                border: "2px solid #0070ad",
+                borderRadius: "8px",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              display: "inline",
+              marginLeft: "2rem",
+              marginRight: "2rem",
+              color: "#0070ad",
+            }}
+          >
+            {noExpiry === false ? (
+              <>
+                <label
+                  htmlFor=""
+                  style={{ fontSize: "0.8rem", paddingRight: "0.6rem" }}
+                >
+                  Valid To
+                </label>
+                <input
+                  id="validTo"
+                  type="date"
+                  style={{
+                    height: "2rem",
+                    fontSize: "1rem",
+                    border: "2px solid #0070ad",
+                    borderRadius: "8px",
+                  }}
+                  onChange={(e) => setCertValidTo(e.target.value)}
+                />
+              </>
+            ) : (
+              ""
+            )}
+            {certvalidTo === "" ? (
+              <>
+                <label
+                  htmlFor=""
+                  style={{
+                    fontSize: "0.8rem",
+                    paddingRight: "0.6rem",
+                    paddingLeft: "0.6rem",
+                  }}
+                >
+                  No Expiry
+                </label>
+
+                <Checkbox
+                  checked={noExpiry}
+                  onChange={handleChange}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              </>
+            ) : (
+              ""
+            )}
+          </div>
+          <TextField
+            id="skills"
+            label="Skills"
+            variant="standard"
+            multiline
+            maxRows={2}
+            focused
+            style={{ width: "10rem", paddingRight: "2rem" }}
+          />
+          <label for="resume-form" className="file-select">
+            <input
+              className="input-field"
+              type="file"
+              id="resume-form"
+              ref={fileInput}
+              name="file"
+            />
+            <AddCircleOutlineIcon />
+            Select File
+          </label>
+          <Button
+            type="submit"
+            variant="contained"
+            style={{ marginTop: "1rem" }}
+          >
+            Add
+          </Button>
+          <br />
+          {certificateInputError && (
+            <p style={{ color: "red" }}>* All Fields are required</p>
+          )}
+        </form>
+
+        {certificatedata.length === 0 ? (
+          <p style={{ textAlign: "center" }}>Add certificates</p>
+        ) : (
+          <TableContainer component={Paper} style={{ marginTop: "15px" }}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell align="center">
+                    Certificate Name
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    Certification By
+                  </StyledTableCell>
+                  <StyledTableCell align="center">Valid From</StyledTableCell>
+                  <StyledTableCell align="center">Valid To</StyledTableCell>
+                  <StyledTableCell align="center">Skills</StyledTableCell>
+                  <StyledTableCell align="center">Certificate</StyledTableCell>
+                  <StyledTableCell align="center">Edit</StyledTableCell>
+                  <StyledTableCell align="center">Delete</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {_DATA.currentData().map((item) => (
+                  <StyledTableRow
+                    key={item.certificateId}
+                    onClick={() => handleDataEdit(item)}
+                  >
+                    <StyledTableCell align="center" component="th" scope="row">
+                      {item.certification}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {item.certificationBy}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {item.validFrom}
+                    </StyledTableCell>
+                    {item.validTo !== "" ? (
+                      <StyledTableCell align="center">
+                        {item.validTo}
+                      </StyledTableCell>
+                    ) : (
+                      <StyledTableCell align="center">
+                        No Expiry
+                      </StyledTableCell>
+                    )}
+                    <StyledTableCell align="center">
+                      {item.skills}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <a
+                        href={item.certificate}
+                        target="_blank"
+                        style={{ textDecoration: "none" }}
+                        rel="noreferrer"
+                      >
+                        <h4 style={{ color: "#317ac7" }}>View Certificate</h4>
+                      </a>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <EditIcon onClick={() => editcertificate(item)} />
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <DeleteIcon onClick={() => deletecertificate(item)} />
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+      </div>
+
+      <div
         style={{
-          fontSize: "0.8rem",
-          paddingRight: "0.6rem",
-          color: "#0070ad",
+          marginTop: "10px",
+          display: "flex",
+          justifyContent: "flex-end",
         }}
       >
-        Valid from
-      </label>
-      <input
-        id="validFrom"
-        type="date"
-        max={currentdate}
-        style={{
-          height: "2rem",
-          fontSize: "1rem",
-          border: "2px solid #0070ad",
-          borderRadius: "8px",
-        }}
-      />
-    </div>
-    <div
-      style={{
-        display: "inline",
-        marginLeft: "2rem",
-        marginRight: "2rem",
-        color: "#0070ad",
-      }}
-    >
-    {noExpiry === false ? <><label
-        htmlFor=""
-        style={{ fontSize: "0.8rem", paddingRight: "0.6rem" }}
-      >
-        Valid To
-      </label> 
-      <input
-        id="validTo"
-        type="date"
-        style={{
-          height: "2rem",
-          fontSize: "1rem",
-          border: "2px solid #0070ad",
-          borderRadius: "8px",
-        }}
-        onChange={(e) => setCertValidTo(e.target.value)}
-      /> 
-      </>: ""}
-      {certvalidTo ===""?
-      <>
-      <label
-        htmlFor=""
-        style={{ fontSize: "0.8rem", paddingRight: "0.6rem",paddingLeft:"0.6rem" }}
-
+        <Stack spacing={2}>
+          <Pagination
+            count={count}
+            size="large"
+            page={page}
+            variant="outlined"
+            shape="rounded"
+            onChange={handleChangePage}
+          />
+        </Stack>
+      </div>
+      <Modal
+        open={openModalEdit}
+        onClose={handleClosemodal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           {responseMsz === "Referred" ? <h4>{`User ${responseMsz}`}</h4> : null}
@@ -538,7 +684,7 @@ return(
                 marginBottom: "2rem",
               }}
             />
-            <label>
+            <label for="edit-resume-form" className="file-select">
               <input
                 className="input-field"
                 type="file"
@@ -546,10 +692,12 @@ return(
                 // ref={fileInput}
                 name="file"
               />
+              <AddCircleOutlineIcon />
+              Select File
             </label>
             <div className="edit-certificate-buttons">
               <Button
-                onClick={() => setopenModal(false)}
+                onClick={() => setopenModalEdit(false)}
                 variant="contained"
                 style={{ marginTop: "1rem" }}
               >
